@@ -1,0 +1,41 @@
+<!doctype html><html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/dashboard/assets/" data-template="vertical-menu-template-free"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="/assets/img/favicon.png" rel="icon"><link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon"><link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet"><link href="/assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"><link href="/assets/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet"><link href="/assets/lib/animate/animate.min.css" rel="stylesheet"><link href="/assets/lib/ionicons/css/ionicons.min.css" rel="stylesheet"><link href="/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"><link href="/assets/lib/magnific-popup/magnific-popup.css" rel="stylesheet"><link href="/assets/lib/ionicons/css/ionicons.min.css" rel="stylesheet"><link href="/assets/css/style.css" rel="stylesheet"><title>Mesproject</title><script defer="defer" src="/main.js"></script></head><body id="body"><div id="root"></div><script src="/assets/lib/jquery/jquery.min.js"></script><script src="/assets/lib/jquery/jquery-migrate.min.js"></script><script src="/assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script><script src="/assets/lib/easing/easing.min.js"></script><script src="/assets/lib/superfish/hoverIntent.js"></script><script src="/assets/lib/superfish/superfish.min.js"></script><script src="/assets/lib/wow/wow.min.js"></script><script src="/assets/lib/owlcarousel/owl.carousel.min.js"></script><script src="/assets/lib/magnific-popup/magnific-popup.min.js"></script><script src="/assets/lib/sticky/sticky.js"></script><script src="/assets/contactform/contactform.js"></script><script src="build/main.js"></script><script src="/assets/js/main.js"></script><script>jQuery(document).ready(function ($) {
+
+      if ($('#nav-menu-container').length) {
+    var $mobile_nav = $('#nav-menu-container').clone().prop({
+      id: 'mobile-nav'
+    });
+    $mobile_nav.find('> ul').attr({
+      'class': '',
+      'id': ''
+    });
+    $('body').append($mobile_nav);
+    $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
+    $('body').append('<div id="mobile-body-overly"></div>');
+    $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
+
+    $(document).on('click', '.menu-has-children i', function (e) {
+      $(this).next().toggleClass('menu-item-active');
+      $(this).nextAll('ul').eq(0).slideToggle();
+      $(this).toggleClass("fa-chevron-up fa-chevron-down");
+    });
+
+    $(document).on('click', '#mobile-nav-toggle', function (e) {
+      $('body').toggleClass('mobile-nav-active');
+      $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+      $('#mobile-body-overly').toggle();
+    });
+
+    $(document).click(function (e) {
+      var container = $("#mobile-nav, #mobile-nav-toggle");
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        if ($('body').hasClass('mobile-nav-active')) {
+          $('body').removeClass('mobile-nav-active');
+          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
+          $('#mobile-body-overly').fadeOut();
+        }
+      }
+    });
+  } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
+    $("#mobile-nav, #mobile-nav-toggle").hide();
+  }
+    })</script></body></html>

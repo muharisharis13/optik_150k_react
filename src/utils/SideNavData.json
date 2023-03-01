@@ -1,0 +1,132 @@
+[
+  {
+    "icon":"bx-home-circle",
+    "title":"Dashboard",
+    "data-i":"Analytic",
+    "href":"/dashboard",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-home-circle",
+    "title":"Cabang",
+    "data-i":"Analytic",
+    "href":"/dashboard/cabang",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-home-circle",
+    "title":"Customer",
+    "data-i":"Analytic",
+    "href":"/dashboard/customer",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-home-circle",
+    "title":"Data Cara Bayar",
+    "data-i":"Analytic",
+    "href":"/dashboard/caraBayar",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-home-circle",
+    "title":"Data User",
+    "data-i":"Analytic",
+    "href":"/dashboard/user",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-package",
+    "title":"Data Penjualan",
+    "data-i":"Analytic",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Penjualan",
+        "href":"/dashboard/dataPenjualan/penjualan"
+      },
+      {
+        "title":"Penjualan Cabang",
+        "href":"/dashboard/dataPenjualan/penjualan/cabang"
+      },
+      {
+        "title":"History Penjualan",
+        "href":"/dashboard/dataPenjualan/history"
+      },
+      {
+        "title":"History Penjualan Cabang",
+        "href":"/dashboard/dataPenjualan/history_cabang"
+      }
+    ]
+  },
+  {
+    "icon":"bx-package",
+    "title":"Data Barang",
+    "data-i":"Analytic",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Category",
+        "href":"/dashboard/dataBarang/category"
+      },
+      {
+        "title":"Barang Rusak",
+        "href":"/dashboard/dataBarang/barangRusak"
+      },
+      {
+        "title":"Barang",
+        "href":"/dashboard/dataBarang/product"
+      }
+    ]
+  },
+  {
+    "icon":"bx-package",
+    "title":"Data Pengeluaran",
+    "data-i":"Analytic",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Pengeluaran",
+        "href":"/dashboard/dataPengeluaran"
+      }
+    ]
+  },
+  {
+    "icon":"bx-package",
+    "title":"Data Kwintansi",
+    "data-i":"Analytic",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Kwintansi",
+        "href":"/dashboard/dataKwintansi"
+      }
+    ]
+  },
+  {
+    "icon":"bx-package",
+    "title":"Data Pembelian",
+    "data-i":"Analytic",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Supplier",
+        "href":"/dashboard/dataPembelian/supplier"
+      },
+      {
+        "title":"Pembelian",
+        "href":"/dashboard/dataPembelian/pembelian"
+      },
+      {
+        "title":"Hitory Pembelian",
+        "href":"/dashboard/dataPembelian/history"
+      }
+    ]
+  },
+  {
+    "icon":"bxs-report",
+    "title":"Laporan",
+    "data-i":"Analytic",
+    "href":"/dashboard/report",
+    "sub-menu":[]
+  }
+]
