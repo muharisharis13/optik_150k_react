@@ -1,6 +1,6 @@
 import { Tables } from "../../../../common_component";
 import { useForm, useWatch } from "react-hook-form";
-import { CreateKwitansiModal } from "../../../../common_component/modal/kwintansi";
+import { CreateKwitansiModal,PrintKwitansiModal } from "../../../../common_component/modal/kwintansi";
 import { useQuery, useMutation } from "react-query";
 import { kwitansiAPI } from "../../../../API";
 import { Loading } from "@utils";
@@ -10,6 +10,9 @@ const KwintansiPage = () => {
     defaultValues: {
       current_page: 1,
       search: "",
+      param:{
+        
+      }
     },
   });
 
@@ -21,6 +24,11 @@ const KwintansiPage = () => {
     control,
     name: "search",
   });
+
+  const param = useWatch({
+    name:"param",
+    control
+  })
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
     onSuccess: () => {
@@ -41,13 +49,20 @@ const KwintansiPage = () => {
     queryFn: () =>
       kwitansiAPI.getListKwitansi({
         query: {
-          size: 1,
+          size: 10,
           page: current_page,
           column_name: "employee",
           query: search,
         },
       }),
   });
+
+  const btnDetailKwitansi = (item)=>{
+
+    console.log({item})
+    setValue("param",item)
+    $("#PrintKwitansiModal").modal("show")
+  }
 
   Loading(isLoading || btnPagination.isLoading);
   return (
@@ -71,7 +86,9 @@ const KwintansiPage = () => {
               data={dataKwitansi?.result?.map((item) => ({
                 ...item,
                 action: [
-                  <button className="btn text-primary">
+                  <button className="btn text-primary"
+                  onClick={() =>btnDetailKwitansi(item)}
+                  >
                     <i className="bx bx-printer"></i>
                   </button>,
                 ],
@@ -88,6 +105,9 @@ const KwintansiPage = () => {
 
       {/* MODAL ===== */}
       <CreateKwitansiModal />
+      <PrintKwitansiModal 
+      param={param}
+      />
     </div>
   );
 };

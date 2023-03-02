@@ -12,6 +12,7 @@ import SuratJalanPagePrint from "@pages/dashboard/print/surat_jalan";
 import BarangByCategory from "./pages/dashboard/laporan/barang_by_category";
 import BarangAllCategory from "./pages/dashboard/laporan/barang_all_category";
 import PenjualanKasirPage from "./pages/dashboard/laporan/penjualan_kasir";
+import KwitansiPrintPage from "./pages/dashboard/print/kwitansi";
 
 const App = () => {
   return (
@@ -44,6 +45,10 @@ const App = () => {
                 <Route
                   path="penjualan-kasir"
                   element={<PenjualanKasirPage />}
+                />
+                <Route 
+                  path="kwitansi" 
+                  element={<KwitansiPrintPage />} 
                 />
               </Route>
             </Routes>
