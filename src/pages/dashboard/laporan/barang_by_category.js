@@ -1,14 +1,11 @@
 import { Tables } from "../../../../common_component";
 import queryString from "query-string";
 import { useQuery } from "react-query";
-import { useForm } from "react-hook-form";
 import { reportAPI } from "../../../../API";
 import { Loading, MoneyFormatZero } from "@utils";
 
 const BarangByCategory = () => {
   const parameter = queryString.parse(location.search);
-
-  console.log(parameter);
 
   const { isLoading, data } = useQuery({
     queryKey: ["barang-by-category"],
@@ -25,6 +22,7 @@ const BarangByCategory = () => {
   Loading(isLoading);
   return (
     <div className="container align-items-center justify-content-center">
+      <h4 className="text-center text-uppercase">Barang By Category Report</h4>
       <Tables
         column={column}
         isPagination={false}

@@ -13,6 +13,7 @@ const BarangByCategory = () => {
   Loading(isLoading);
   return (
     <div className="container align-items-center justify-content-center">
+      <h4 className="text-center text-uppercase">Barang All Category Report</h4>
       {data?.map((item, idx) => (
         <div className="mb-4" key={idx}>
           <label htmlFor="" className="form-label">

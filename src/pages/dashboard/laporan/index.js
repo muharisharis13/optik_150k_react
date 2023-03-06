@@ -73,7 +73,10 @@ const LaporanPage = () => {
     {
       laporan_name: "Pembelian",
       action: [
-        <button className="btn text-primary">
+        <button
+          className="btn text-primary"
+          onClick={() => $("#ModalPembelian").modal("show")}
+        >
           <i className="bx bx-printer"></i>
         </button>,
       ],
@@ -81,7 +84,13 @@ const LaporanPage = () => {
     {
       laporan_name: "Kwitansi",
       action: [
-        <button className="btn text-primary">
+        <button
+          className="btn text-primary"
+          onClick={() => {
+            $("#ModalKwitansi").modal("show");
+            setValue("modals.pengeluaran", false);
+          }}
+        >
           <i className="bx bx-printer"></i>
         </button>,
       ],
@@ -89,7 +98,13 @@ const LaporanPage = () => {
     {
       laporan_name: "Pengeluaran Toko",
       action: [
-        <button className="btn text-primary">
+        <button
+          className="btn text-primary"
+          onClick={() => {
+            $("#ModalKwitansi").modal("show");
+            setValue("modals.pengeluaran", true);
+          }}
+        >
           <i className="bx bx-printer"></i>
         </button>,
       ],
@@ -97,7 +112,10 @@ const LaporanPage = () => {
     {
       laporan_name: "Resume Keuangan",
       action: [
-        <button className="btn text-primary">
+        <button
+          className="btn text-primary"
+          onClick={() => $("#ModalResumeKeuangan").modal("show")}
+        >
           <i className="bx bx-printer"></i>
         </button>,
       ],

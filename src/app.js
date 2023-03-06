@@ -12,7 +12,11 @@ import SuratJalanPagePrint from "@pages/dashboard/print/surat_jalan";
 import BarangByCategory from "./pages/dashboard/laporan/barang_by_category";
 import BarangAllCategory from "./pages/dashboard/laporan/barang_all_category";
 import PenjualanKasirPage from "./pages/dashboard/laporan/penjualan_kasir";
+import PembelianLaporanPage from "./pages/dashboard/laporan/pembelian";
 import KwitansiPrintPage from "./pages/dashboard/print/kwitansi";
+import KwitansiReportPage from "./pages/dashboard/laporan/kwitansi";
+import PengeluaranReport from "./pages/dashboard/laporan/pengeluaran";
+import ResumeKeuangan from "./pages/dashboard/laporan/resumeKeuangan";
 
 const App = () => {
   return (
@@ -46,10 +50,14 @@ const App = () => {
                   path="penjualan-kasir"
                   element={<PenjualanKasirPage />}
                 />
-                <Route 
-                  path="kwitansi" 
-                  element={<KwitansiPrintPage />} 
+                <Route path="kwitansi" element={<KwitansiPrintPage />} />
+                <Route path="pembelian" element={<PembelianLaporanPage />} />
+                <Route
+                  path="kwitansi_report"
+                  element={<KwitansiReportPage />}
                 />
+                <Route path="pengeluaran" element={<PengeluaranReport />} />
+                <Route path="resume-keuangan" element={<ResumeKeuangan />} />
               </Route>
             </Routes>
           </BrowserRouter>

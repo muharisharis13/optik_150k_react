@@ -53,11 +53,11 @@ const ModalBarangRusak = ({ param }) => {
   useEffect(() => {
     if (param?.uuid) {
       Object.entries(param)?.forEach(([name, value]) => setValue(name, value));
+      setValueContext("selected.product", {
+        value: param?.product?.id,
+        label: param?.product?.product_name,
+      });
     }
-    setValueContext("selected.product", {
-      value: param?.product?.id,
-      label: param?.product?.product_name,
-    });
   }, [param?.uuid]);
   return (
     <Modal

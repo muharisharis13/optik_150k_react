@@ -149,6 +149,12 @@ const ProductPage = () => {
       refetch();
     },
   });
+  const btnDownloadData = useMutation({
+    mutationFn: () => productAPI.downloadProductList,
+    onSuccess: (onSuccess) => {
+      console.log({ onSuccess });
+    },
+  });
 
   Loading(
     isLoading ||
@@ -156,14 +162,15 @@ const ProductPage = () => {
       btnPagination.isLoading ||
       btnSearch.isLoading ||
       btnUpdateProduct.isLoading ||
-      btnDeleteProduct.isLoading
+      btnDeleteProduct.isLoading ||
+      btnDownloadData.isLoading
   );
 
   return (
     <div className="content-wrapper">
       <div className="container-xxl flex-grow-1 container-p-y">
         <div className="card">
-          <div className="card-body">
+          <div className="card-body gap-2 d-flex">
             <button
               id="btnAddProduct"
               className="btn btn-primary"
@@ -174,6 +181,20 @@ const ProductPage = () => {
               }}
             >
               Tambah Produk Baru
+            </button>
+            <a
+              className="btn btn-secondary"
+              target="__blank"
+              href="http://localhost:3002/api/v1/product/export/csv"
+            >
+              Download Product
+            </a>
+
+            <button
+              className="btn btn-success"
+              onClick={() => $("#ModalUploadCsv").modal("show")}
+            >
+              Upload Product
             </button>
           </div>
         </div>

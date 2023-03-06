@@ -45,6 +45,7 @@ module.exports = () => {
         directory: path.join(__dirname, "/"),
       },
       port: 3005,
+      open:true
     },
     externals: {
       jquery: "$",

@@ -19,6 +19,7 @@ const intialState = {
   },
   modals: {
     product: false,
+    pengeluaran: false,
   },
   paramReport: {
     penjualanDp: false,

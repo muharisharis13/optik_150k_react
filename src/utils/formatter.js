@@ -14,6 +14,10 @@ export function MoneyFormatZero(number) {
   }
 }
 
+export const inputMoney = (number) => {
+  return new Intl.NumberFormat().format(number);
+};
+
 export function DateFormatMonthName(p_date) {
   if (p_date) {
     var monthNames = [

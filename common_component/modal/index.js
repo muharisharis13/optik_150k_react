@@ -8,6 +8,7 @@ import ModalCaraBayar from "./cara_bayar";
 import TransaksiByDayModal from "./transaksiByDay";
 import TotalPenjualanModal from "./totalPenjualan";
 import InputUangKasirModal from "./inputUangKasir";
+import ModalUploadCsv from "./uploadCsv";
 
 export {
   ModalProducts,
@@ -20,4 +21,5 @@ export {
   TransaksiByDayModal,
   TotalPenjualanModal,
   InputUangKasirModal,
+  ModalUploadCsv,
 };

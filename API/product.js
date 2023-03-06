@@ -36,6 +36,21 @@ class ProductAPI {
       .then((res) => res?.data)
       .catch((err) => err);
   }
+
+  uploadProductList(body) {
+    return Axios.post(`/product/upload/csv`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => res?.data)
+      .catch((err) => err);
+  }
+  downloadProductList() {
+    return Axios.get(`/product/export/csv`)
+      .then((res) => res?.data)
+      .catch((err) => err);
+  }
 }
 
 export default new ProductAPI();

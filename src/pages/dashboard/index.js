@@ -36,10 +36,14 @@ import {
   TransaksiByDayModal,
   TotalPenjualanModal,
   InputUangKasirModal,
+  ModalUploadCsv,
 } from "../../../common_component/modal";
 import {
   ModalSelectCategory,
   ModalPenjualanKasir,
+  ModalPembelian,
+  ModalKwitansi,
+  ModalResumeKeuangan,
 } from "../../../common_component/modal/laporan";
 import { CreateSupplierModal } from "../../../common_component/modal/supplier";
 import { TransaksiByDay } from "../../../common_component/offcanvas/index";
@@ -137,6 +141,10 @@ const Dashboard = () => {
 
       <ModalSelectCategory />
       <ModalPenjualanKasir />
+      <ModalPembelian />
+      <ModalKwitansi />
+      <ModalResumeKeuangan />
+      <ModalUploadCsv />
     </div>
   );
 };
