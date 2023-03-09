@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { caraBayarAPI } from "../../API";
 
 const SelectedCaraBayar = ({ caraBayar2 = false }) => {
+  const location = window.location.pathname;
   const { setValue, control } = useForm({
     defaultValues: {
       param: {
@@ -41,13 +42,22 @@ const SelectedCaraBayar = ({ caraBayar2 = false }) => {
       }),
   });
 
+  const filterCaraBayar = (filter) => {
+    if (!caraBayar2 && location.match("cabang")) {
+      return filter.cara_bayar_name === "CREDIT";
+    } else {
+      return filter;
+    }
+  };
+
   return (
     <div>
       <Select
+        isClearable
         placeholder="Select Cara Bayar"
         value={caraBayar2 ? selectedCaraBayar2 : selectedCaraBayar}
         isLoading={isLoading}
-        options={data?.result?.map((item) => ({
+        options={data?.result?.filter(filterCaraBayar).map((item) => ({
           value: item.id,
           label: item.cara_bayar_name,
         }))}

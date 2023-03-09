@@ -15,6 +15,7 @@ const Table = ({
   isSearch = true,
   isPagination = true,
   tfoot,
+  useNotFound = true,
 }) => {
   return (
     <div className="row">
@@ -73,12 +74,14 @@ const Table = ({
                 })
               ) : (
                 <tr>
-                  <td
-                    colSpan={action ? column.length + 1 : column.length}
-                    className="text-center"
-                  >
-                    <PageError title="Data Not Found" />
-                  </td>
+                  {useNotFound ? (
+                    <td
+                      colSpan={action ? column.length + 1 : column.length}
+                      className="text-center"
+                    >
+                      <PageError title="Data Not Found" />
+                    </td>
+                  ) : null}
                 </tr>
               )}
             </tbody>

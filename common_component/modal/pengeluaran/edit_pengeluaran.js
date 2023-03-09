@@ -19,13 +19,23 @@ const EditPengeluaranModal = ({ param }) => {
   });
 
   const btnSimpan = useMutation({
-    mutationFn: ({ param }) =>
-      pengeluaranAPI.addPengeluaran({
-        body: param,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries("getListPengeluaran");
-      $("#EditPengeluaranModal").modal("hide");
+    mutationFn: ({ param }) => {
+      if (param.uuid) {
+        return pengeluaranAPI.updatePengeluaran({
+          uuid: param.uuid,
+          body: param,
+        });
+      } else {
+        return pengeluaranAPI.addPengeluaran({
+          body: param,
+        });
+      }
+    },
+    onSuccess: (onSuccess) => {
+      if (onSuccess) {
+        queryClient.invalidateQueries("getListPengeluaran");
+        $("#EditPengeluaranModal").modal("hide");
+      }
     },
   });
 

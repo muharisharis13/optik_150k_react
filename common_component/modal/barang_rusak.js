@@ -6,7 +6,7 @@ import { barangRusakAPI } from "../../API";
 import { Loading } from "@utils";
 import { useEffect } from "react";
 
-const ModalBarangRusak = ({ param }) => {
+const ModalBarangRusak = ({ param, isLoading }) => {
   const queryClient = useQueryClient();
   const { handleSubmit, register, reset, setValue } = useForm({
     defaultValues: {
@@ -58,7 +58,7 @@ const ModalBarangRusak = ({ param }) => {
         label: param?.product?.product_name,
       });
     }
-  }, [param?.uuid]);
+  }, [isLoading]);
   return (
     <Modal
       title="Tambah Barang Rusak"

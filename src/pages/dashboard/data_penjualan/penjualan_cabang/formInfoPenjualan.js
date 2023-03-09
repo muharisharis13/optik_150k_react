@@ -80,7 +80,7 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
             : {MoneyFormatZero(param_transaksi.total_transaksi_cabang)}
           </div>
         </div>
-        <div className="row mt-2">
+        {/* <div className="row mt-2">
           <div className="col-md-2">
             <strong>Tunai 1</strong>
           </div>
@@ -93,8 +93,8 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
               {...register("param_transaksi.uang1")}
             />
           </div>
-        </div>
-        <div className="row mt-2">
+        </div> */}
+        {/* <div className="row mt-2">
           <div className="col-md-2">
             <strong>Tunai 2</strong>
           </div>
@@ -107,8 +107,8 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
               {...register("param_transaksi.uang2")}
             />
           </div>
-        </div>
-        <div className="row mt-2">
+        </div> */}
+        {/* <div className="row mt-2">
           <div className="col-md-2">
             <strong>
               {parseInt(param_transaksi.uang1) +
@@ -127,7 +127,7 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
                 param_transaksi.total_transaksi_cabang || 0
             )}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -135,4 +135,5 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
 
 export default FormInfoPenjualan;
 
-const statusArr = ["CREDIT", "DP", "LUNAS"];
+const statusArr = ["CREDIT"];
+// const statusArr = ["CREDIT", "DP", "LUNAS"];

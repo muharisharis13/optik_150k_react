@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "webpack  --mode production --progress",
-    "start": "webpack  serve --mode development",
+    "start": "webpack  serve --mode development --hot",
     "serve": "nodemon server.js"
   },
   "dependencies": {

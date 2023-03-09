@@ -32,8 +32,7 @@ const LaporanPage = () => {
           className="btn text-primary"
           onClick={() => {
             $("#ModalPenjualanKasir").modal("show");
-            setValue("paramReport.penjualanDp", false);
-            setValue("paramReport.penjualanCabang", false);
+            setValue("showOf", "");
           }}
         >
           <i className="bx bx-printer"></i>
@@ -47,8 +46,7 @@ const LaporanPage = () => {
           className="btn text-primary"
           onClick={() => {
             $("#ModalPenjualanKasir").modal("show");
-            setValue("paramReport.penjualanDp", true);
-            setValue("paramReport.penjualanCabang", false);
+            setValue("showOf", "DP");
           }}
         >
           <i className="bx bx-printer"></i>
@@ -62,8 +60,7 @@ const LaporanPage = () => {
           className="btn text-primary"
           onClick={() => {
             $("#ModalPenjualanKasir").modal("show");
-            setValue("paramReport.penjualanCabang", true);
-            setValue("paramReport.penjualanDp", false);
+            setValue("showOf", "cabang");
           }}
         >
           <i className="bx bx-printer"></i>

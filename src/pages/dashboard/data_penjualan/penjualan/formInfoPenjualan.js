@@ -3,6 +3,7 @@ import {
   SelectedNoHP,
   SelectCaraBayar,
 } from "../../../../../common_component/select";
+import { useWatch } from "react-hook-form";
 
 const FormInfoPenjualan = ({
   dataCustomer = {},
@@ -11,6 +12,9 @@ const FormInfoPenjualan = ({
   paramTransaksi = {},
   register,
 }) => {
+  const selectedContext = useWatch({
+    name: "selected",
+  });
   return (
     <div>
       <div className="row">
@@ -61,29 +65,10 @@ const FormInfoPenjualan = ({
         <div className="col-md-3 col-lg-3 p-1">
           <label className="form-label">Cara Bayar 1</label>
           <SelectCaraBayar />
-          {/* <select
-            name=""
-            id=""
-            className="form-select"
-            {...register("paramTransaksi.payment_method1")}
-          >
-            {caraBayar.map((item, idx) => (
-              <option key={idx}>{item}</option>
-            ))}
-          </select> */}
         </div>
         <div className="col-md-3 col-lg-3 p-1">
           <label className="form-label">Cara Bayar 2</label>
-          {/* <select
-            name=""
-            id=""
-            className="form-select"
-            {...register("paramTransaksi.payment_method2")}
-          >
-            {caraBayar.map((item, idx) => (
-              <option key={idx}>{item}</option>
-            ))}
-          </select> */}
+
           <SelectCaraBayar caraBayar2={true} />
         </div>
         <div className="col-md-3 col-lg-3 p-1">
@@ -143,34 +128,38 @@ const FormInfoPenjualan = ({
             : Rp {MoneyFormatZero(paramTransaksi?.total_transaksi)}
           </div>
         </div>
-        <div className="row mt-2">
-          <div className="col-md-2">
-            <strong>Tunai 1</strong>
+        {selectedContext?.cara_bayar?.value ? (
+          <div className="row mt-2">
+            <div className="col-md-2">
+              <strong>Tunai 1</strong>
+            </div>
+            <div className="col-md-4 d-flex align-items-center">
+              :&nbsp;
+              <input
+                type="number"
+                placeholder="Tunai 1"
+                className="form-control "
+                {...register("paramTransaksi.tunai1")}
+              />
+            </div>
           </div>
-          <div className="col-md-4 d-flex align-items-center">
-            :&nbsp;
-            <input
-              type="number"
-              placeholder="Tunai 1"
-              className="form-control form-control-sm"
-              {...register("paramTransaksi.tunai1")}
-            />
+        ) : null}
+        {selectedContext?.cara_bayar_2?.value ? (
+          <div className="row mt-2">
+            <div className="col-md-2">
+              <strong>Tunai 2</strong>
+            </div>
+            <div className="col-md-4 d-flex align-items-center">
+              : &nbsp;
+              <input
+                type="number"
+                placeholder="Tunai 2"
+                className="form-control "
+                {...register("paramTransaksi.tunai2")}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row mt-2">
-          <div className="col-md-2">
-            <strong>Tunai 2</strong>
-          </div>
-          <div className="col-md-4 d-flex align-items-center">
-            : &nbsp;
-            <input
-              type="number"
-              placeholder="Tunai 2"
-              className="form-control form-control-sm"
-              {...register("paramTransaksi.tunai2")}
-            />
-          </div>
-        </div>
+        ) : null}
         <div className="row mt-2">
           <div className="col-md-2">
             <strong>

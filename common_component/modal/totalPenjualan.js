@@ -1,11 +1,11 @@
 import Modal from "../modals";
-import { DateFormatMonthName, MoneyFormatZero } from "../../src/utils";
+import { DateFormatMonthName, Loading, MoneyFormatZero } from "../../src/utils";
 import { useWatch } from "react-hook-form";
 import { useQuery } from "react-query";
 import { caraBayarAPI, PenjualanAPI } from "../../API";
 
 const TotalPenjualanModal = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getListResume"],
     queryFn: () => PenjualanAPI.resumePenjualanPerhari(),
   });
@@ -20,6 +20,8 @@ const TotalPenjualanModal = () => {
     0
   );
   const paymentCash = metodePembayaran1?.find((find) => (find.type = "cash"));
+
+  Loading(isLoading);
 
   return (
     <Modal

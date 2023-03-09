@@ -94,21 +94,19 @@ const ModalUser = ({ param }) => {
             />
           </div>
         </div>
-        {!param?.uuid ? (
-          <div className="col-md-6 col-lg-6">
-            <div>
-              <label htmlFor="" className="form-label">
-                password
-              </label>
-              <input
-                type="password"
-                placeholder="nama"
-                className="form-control"
-                {...register("password")}
-              />
-            </div>
+        <div className="col-md-6 col-lg-6">
+          <div>
+            <label htmlFor="" className="form-label">
+              password
+            </label>
+            <input
+              type="password"
+              placeholder="nama"
+              className="form-control"
+              {...register("password")}
+            />
           </div>
-        ) : null}
+        </div>
         <div className="col-md-6 col-lg-6">
           <div>
             <label htmlFor="" className="form-label">

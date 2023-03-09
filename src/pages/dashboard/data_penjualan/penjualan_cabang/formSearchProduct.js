@@ -1,6 +1,10 @@
 import { SelectedProduct } from "../../../../../common_component/select";
+import { useWatch } from "react-hook-form";
 
 const FormSearchProduct = ({ register }) => {
+  const selectedProduct = useWatch({
+    name: "selected.product",
+  });
   return (
     <div>
       <div className="row">
@@ -66,12 +70,13 @@ const FormSearchProduct = ({ register }) => {
               QTY
             </label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="Qty"
               placeholder="Qty"
               aria-describedby="defaultFormControlHelp"
               {...register("param.qty")}
+              disabled={selectedProduct.value ? false : true}
             />
           </div>
         </div>

@@ -139,7 +139,7 @@ const BarangRusakPage = () => {
         </div>
       </div>
       {/* Modal ====== */}
-      <ModalBarangRusak param={param} />
+      <ModalBarangRusak param={param} isLoading={btnHandleEdit.isLoading} />
     </div>
   );
 };

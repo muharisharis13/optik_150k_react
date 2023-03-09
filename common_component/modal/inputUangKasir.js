@@ -1,7 +1,9 @@
 import Modal from "../modals";
 import { useFormContext } from "react-hook-form";
+import { useQueryClient } from "react-query";
 
 const InputUangKasirModal = () => {
+  const queryClient = useQueryClient();
   const {
     register,
     formState: { errors },
@@ -11,6 +13,7 @@ const InputUangKasirModal = () => {
   const btnSubmit = (e) => {
     $("#TotalPenjualanModal").modal("show");
     $("#InputUangKasirModal").modal("hide");
+    queryClient.invalidateQueries("getListResume");
   };
   return (
     <Modal

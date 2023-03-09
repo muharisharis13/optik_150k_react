@@ -117,77 +117,37 @@ const PenjualanCabangPageDashboard = () => {
     initTotalTransaksi();
   }, [data]);
 
-  const btnTambah = () => {
-    const findDuplicate = data.find(
-      (find) => find?.productCode === param?.productCode
-    );
-    if (findDuplicate?.productCode) {
-      setValue(
-        "data",
-        data.map((obj) =>
-          obj.productCode === findDuplicate?.productCode
-            ? { ...obj, qty: parseInt(obj.qty) + parseInt(paramQty) }
-            : obj
-        )
-      );
-    } else {
-      setValue("data", [
-        ...data,
-        {
-          ...param,
-          notes: param?.notes || "-",
-        },
-      ]);
-    }
-    resetField("param", {
-      qty: 0,
-      uom: "",
-      product: "",
-      stock: 0,
-      price: 0,
-      subtotal: 0,
-      notes: "",
-      productCode: "",
-    });
-    setValueContext("selected.product", "");
-  };
+  const btnTambah = (e) => {
+    console.log({ e });
 
-  const btnHandleSimpan = useMutation({
-    mutationFn: (obj) => {
-      const body = {
-        total_transaksi_cabang: obj?.param_transaksi?.total_transaksi_cabang,
-        uang1: obj?.param_transaksi?.uang1,
-        uang2: obj?.param_transaksi?.uang2,
-        uang_total:
-          parseInt(obj?.param_transaksi?.uang1) +
-          parseInt(obj?.param_transaksi?.uang2),
-        cabangId: selectedCabang?.value,
-        payment_method1: selectedCaraBayar1?.label,
-        payment_method2: selectedCaraBayar2?.label,
-        discount: 0,
-        notes: obj?.param_transaksi?.notes,
-        transaksi_status: obj?.param_transaksi?.transaksi_status,
-        listProduct: obj?.data?.map((item) => ({
-          productId: item.id,
-          price: item.price,
-          qty: item.qty,
-          discount: 0,
-          subtotal: item.subtotal,
-          notes: item.notes,
-        })),
-      };
-      console.log({ body });
-      return penjualanCabangAPI.addPenjualanCabang({
-        body,
-      });
-    },
-    onSuccess: (onSuccess) => {
-      console.log({ onSuccess });
-      $("#ViewPenjualanCabangModal").modal("show");
-      setValue("resultParam", {
-        data: onSuccess?.data?.listProduct,
-        data_info: onSuccess?.data?.result,
-      });
+    if (e.param.qty != 0 && selectedProduct.value) {
+      const findDuplicate = data.find(
+        (find) => find?.productCode === param?.productCode
+      );
+      if (findDuplicate?.productCode) {
+        setValue(
+          "data",
+          data.map((obj) =>
+            obj.productCode === findDuplicate?.productCode
+              ? {
+                  ...obj,
+                  qty: parseInt(obj.qty) + parseInt(paramQty),
+                  subtotal:
+                    (parseInt(obj.qty) + parseInt(paramQty)) *
+                    parseInt(obj.price),
+                }
+              : obj
+          )
+        );
+      } else {
+        setValue("data", [
+          ...data,
+          {
+            ...param,
+            notes: param?.notes || "-",
+          },
+        ]);
+      }
       resetField("param", {
         qty: 0,
         uom: "",
@@ -198,14 +158,75 @@ const PenjualanCabangPageDashboard = () => {
         notes: "",
         productCode: "",
       });
-      resetField("data", []);
-      resetField("param_transaksi", {
-        total_transaksi_cabang: 0,
-        transaksi_status: "CREDIT",
-        notes: "",
-        uang1: 0,
-        uang2: 0,
-      });
+      setValueContext("selected.product", "");
+    } else {
+      alert("Please Check You Input");
+    }
+  };
+
+  const btnHandleSimpan = useMutation({
+    mutationFn: (obj) => {
+      if (selectedCabang?.value && selectedCaraBayar1) {
+        const body = {
+          total_transaksi_cabang: obj?.param_transaksi?.total_transaksi_cabang,
+          uang1: obj?.param_transaksi?.uang1,
+          uang2: obj?.param_transaksi?.uang2,
+          uang_total:
+            parseInt(obj?.param_transaksi?.uang1) +
+            parseInt(obj?.param_transaksi?.uang2),
+          cabangId: selectedCabang?.value,
+          payment_method1: selectedCaraBayar1?.label,
+          payment_method2: selectedCaraBayar2?.label,
+          discount: 0,
+          notes: obj?.param_transaksi?.notes,
+          transaksi_status: obj?.param_transaksi?.transaksi_status,
+          listProduct: obj?.data?.map((item) => ({
+            productId: item.id,
+            price: item.price,
+            qty: item.qty,
+            discount: 0,
+            subtotal: item.subtotal,
+            notes: item.notes,
+          })),
+        };
+        console.log({ body });
+        return penjualanCabangAPI.addPenjualanCabang({
+          body,
+        });
+      } else {
+        alert("Please Check Your Submit");
+      }
+    },
+    onSuccess: async (onSuccess) => {
+      if (onSuccess) {
+        const result = await penjualanCabangAPI.getDetailPenjualanCabang(
+          onSuccess?.data?.result?.uuid
+        );
+        console.log({ onSuccess });
+        $("#ViewPenjualanCabangModal").modal("show");
+        setValue("resultParam", {
+          data: result.listProduct,
+          data_info: result.dataInfo,
+        });
+        resetField("param", {
+          qty: 0,
+          uom: "",
+          product: "",
+          stock: 0,
+          price: 0,
+          subtotal: 0,
+          notes: "",
+          productCode: "",
+        });
+        resetField("data", []);
+        resetField("param_transaksi", {
+          total_transaksi_cabang: 0,
+          transaksi_status: "CREDIT",
+          notes: "",
+          uang1: 0,
+          uang2: 0,
+        });
+      }
     },
   });
 
@@ -228,7 +249,10 @@ const PenjualanCabangPageDashboard = () => {
             <FormSearchProduct register={register} />
           </div>
           <div className="card-footer">
-            <button className="btn btn-primary" onClick={btnTambah}>
+            <button
+              className="btn btn-primary"
+              onClick={handleSubmit(btnTambah)}
+            >
               Tambah
             </button>
           </div>

@@ -17,6 +17,7 @@ const intialState = {
     cara_bayar: "",
     cara_bayar_2: "",
   },
+  showOf: "",
   modals: {
     product: false,
     pengeluaran: false,

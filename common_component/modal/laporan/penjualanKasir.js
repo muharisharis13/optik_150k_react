@@ -9,11 +9,11 @@ import {
 } from "../../select";
 
 const ModalPenjualanKasir = () => {
-  const { control, register } = useForm({
+  const { control, register, setValue } = useForm({
     defaultValues: {
       from_datetime: "",
       until_datetime: "",
-      selected_radio: "customerId",
+      selected_radio: "all",
     },
   });
   const selected_radio = useWatch({
@@ -33,27 +33,23 @@ const ModalPenjualanKasir = () => {
   const selected = useWatch({
     name: "selected",
   });
-  const paramReport = useWatch({
-    name: "paramReport",
+  const showOf = useWatch({
+    name: "showOf",
   });
 
   const generatedId = () => {
     if (selected_radio === "customerId") {
-      return `customerId=${selected?.noHp?.value}`;
+      return `customerId=${selected?.noHp?.value ?? ""}`;
     } else if (selected_radio === "categoryId") {
-      return `categoryId=${selected?.category?.value}`;
+      return `categoryId=${selected?.category?.value ?? ""}`;
     } else if (selected_radio === "productId") {
-      return `productId=${selected?.product?.value}`;
+      return `productId=${selected?.product?.value ?? ""}`;
     } else if (selected_radio === "payment_method1") {
-      if (paramReport.penjualanDp == true || paramReport.penjualanCabang) {
-        return;
-      } else {
-        return `paymentMethod=${selected?.cara_bayar?.value}`;
-      }
+      return `paymentMethod=${selected?.cara_bayar?.value ?? ""}`;
     } else if (selected_radio === "cabangId") {
-      return `cabangId=${selected?.cabang?.value}`;
+      return `cabangId=${selected?.cabang?.value ?? ""}`;
     } else {
-      return;
+      return "";
     }
   };
 
@@ -66,9 +62,14 @@ const ModalPenjualanKasir = () => {
         <a
           target="__blank"
           className="btn btn-primary"
-          href={`/view/penjualan-kasir?from_datetime=${from_datetime}&until_datetime=${until_datetime}&selected_radio=${selected_radio}&${generatedId()}&penjualanDp=${
-            paramReport.penjualanDp
-          }&penjualanCabang=${paramReport.penjualanCabang}`}
+          href={`/view/penjualan-kasir?from_datetime=${from_datetime}&until_datetime=${until_datetime}&selected_radio=${selected_radio}&${generatedId()}${
+            showOf == "DP"
+              ? "&view=DP"
+              : showOf == "cabang"
+              ? "&view=cabang"
+              : ""
+          }`}
+          disabled={true}
         >
           Submit
         </a>,
@@ -106,56 +107,52 @@ const ModalPenjualanKasir = () => {
           <SelectedCategory />
         ) : selected_radio === "productId" ? (
           <SelectedProduct />
-        ) : paramReport.penjualanDp ==
-          true ? null : paramReport.penjualanCabang == true ? (
-          <SelectCabang />
-        ) : (
+        ) : selected_radio === "payment_method1" ? (
           <SelectCaraBayar />
-        )}
+        ) : selected_radio === "cabangId" ? (
+          <SelectCabang />
+        ) : null}
       </div>
       <div>
         <label htmlFor="" className="form-label">
           tampilkan berdasarkan
         </label>
-        {paramReport.penjualanCabang
+        {showOf === "cabang"
           ? arrCabang.map((item, idx) => (
-              <div class="form-check mt-1" key={idx}>
+              <div class="form-check mt-3" key={idx}>
                 <input
-                  name="viewRadio"
+                  name="filter-radio"
                   class="form-check-input"
                   type="radio"
                   value={item.key}
-                  id={item.title}
-                  {...register("selected_radio")}
+                  id={item.key}
+                  onChange={(e) => setValue("selected_radio", e.target.value)}
                   checked={item.key === selected_radio ? true : false}
                 />
-                <label class="form-check-label" for={item.title}>
-                  {item.title}
+                <label class="form-check-label" for={item.key}>
+                  {" "}
+                  {item.title}{" "}
                 </label>
               </div>
             ))
-          : arrRadio
-              .filter((filter) =>
-                paramReport.penjualanDp === true
-                  ? filter.key !== "payment_method1"
-                  : filter
-              )
-              .map((item, idx) => (
-                <div class="form-check mt-1" key={idx}>
-                  <input
-                    name="viewRadio"
-                    class="form-check-input"
-                    type="radio"
-                    value={item.key}
-                    id={item.title}
-                    {...register("selected_radio")}
-                    checked={item.key === selected_radio ? true : false}
-                  />
-                  <label class="form-check-label" for={item.title}>
-                    {item.title}
-                  </label>
-                </div>
-              ))}
+          : arrRadio.map((item, idx) => (
+              <div class="form-check mt-3" key={idx}>
+                <input
+                  name="filter-radio"
+                  class="form-check-input"
+                  type="radio"
+                  value={item.key}
+                  id={item.key}
+                  onChange={(e) => setValue("selected_radio", e.target.value)}
+                  // {...register("selected_radio")}
+                  checked={item.key === selected_radio ? true : false}
+                />
+                <label class="form-check-label" for={item.key}>
+                  {" "}
+                  {item.title}{" "}
+                </label>
+              </div>
+            ))}
       </div>
     </Modal>
   );
@@ -168,7 +165,6 @@ const arrCabang = [
     title: "Cabang",
     key: "cabangId",
   },
-
   {
     title: "Category",
     key: "categoryId",
@@ -176,6 +172,14 @@ const arrCabang = [
   {
     title: "Barang",
     key: "productId",
+  },
+  {
+    title: "Cara Bayar",
+    key: "payment_method1",
+  },
+  {
+    title: "Semua",
+    key: "all",
   },
 ];
 const arrRadio = [
@@ -194,5 +198,9 @@ const arrRadio = [
   {
     title: "Cara Bayar",
     key: "payment_method1",
+  },
+  {
+    title: "Semua",
+    key: "all",
   },
 ];

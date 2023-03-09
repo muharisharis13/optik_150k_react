@@ -30,7 +30,7 @@ const HeaderDashboard = () => {
         }
       })
       .catch((err) => {
-        alert("ada eror nih");
+        alert(err.message);
       });
   };
 

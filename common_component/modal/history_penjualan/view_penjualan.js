@@ -67,6 +67,10 @@ const ViewPenjualanModal = ({ data = [], dataInfo = {} }) => {
               ...item,
               subtotal: "Rp. " + MoneyFormatZero(item.subtotal),
               price: "Rp. " + MoneyFormatZero(item.price),
+              product: {
+                ...item.product,
+                productCode: item?.product?.productCode ?? "",
+              },
             }))}
             isPagination={false}
           />

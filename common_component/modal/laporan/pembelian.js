@@ -7,7 +7,7 @@ const ModalPembelian = () => {
     defaultValues: {
       from_datetime: "",
       until_datetime: "",
-      selected_radio: "supplierId",
+      selected_radio: "all",
     },
   });
 
@@ -31,9 +31,11 @@ const ModalPembelian = () => {
 
   const generateId = () => {
     if (selected_radio === "supplierId") {
-      return `supplierId=${selected?.supplier?.value}`;
+      return `supplierId=${selected?.supplier?.value ?? ""}`;
+    } else if (selected_radio === "barangId") {
+      return `productId=${selected?.product?.value ?? ""}`;
     } else {
-      return `productId=${selected?.product?.value}`;
+      return `all=""`;
     }
   };
   return (
@@ -83,14 +85,14 @@ const ModalPembelian = () => {
           </label>
           <SelectedProduct />
         </div>
-      ) : (
+      ) : selected_radio === "supplierId" ? (
         <div>
           <label htmlFor="" className="form-label">
             Supplier
           </label>
           <SelectSupplier />
         </div>
-      )}
+      ) : null}
       <div>
         <label htmlFor="" className="form-label">
           Tampilkan Berdasarkan
@@ -122,6 +124,20 @@ const ModalPembelian = () => {
             />
             <label class="form-check-label" htmlFor="barang">
               Barang
+            </label>
+          </div>
+          <div class=" mt-1">
+            <input
+              name="viewRadio"
+              class="form-check-input"
+              type="radio"
+              value="all"
+              id="semua"
+              {...register("selected_radio")}
+              checked={"all" === selected_radio ? true : false}
+            />
+            <label class="form-check-label" htmlFor="semua">
+              Semua
             </label>
           </div>
         </div>

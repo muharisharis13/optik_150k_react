@@ -145,39 +145,50 @@ const PenjualanPageDashboard = () => {
     initTotalTransaksi();
   }, [data]);
 
-  const btnTambah = () => {
+  const btnTambah = (e) => {
+    console.log({ e: e.param });
     const findDuplicate = data.find(
       (find) => find?.productCode === param?.productCode
     );
-    if (findDuplicate?.productCode) {
-      setValue(
-        "data",
-        data.map((obj) =>
-          obj.productCode === findDuplicate?.productCode
-            ? { ...obj, qty: parseInt(obj.qty) + parseInt(paramQty) }
-            : obj
-        )
-      );
+    if (e?.param["qty"] != 0 && selectedProduct.value) {
+      if (findDuplicate?.productCode) {
+        setValue(
+          "data",
+          data.map((obj) =>
+            obj.productCode === findDuplicate?.productCode
+              ? {
+                  ...obj,
+                  qty: parseInt(obj.qty) + parseInt(paramQty),
+                  subtotal:
+                    (parseInt(obj.qty) + parseInt(paramQty)) *
+                    parseInt(obj.price),
+                }
+              : obj
+          )
+        );
+      } else {
+        setValue("data", [
+          ...data,
+          {
+            ...param,
+            notes: param?.notes || "-",
+          },
+        ]);
+      }
+      resetField("param", {
+        qty: 0,
+        uom: "",
+        product: "",
+        stock: 0,
+        price: 0,
+        subtotal: 0,
+        notes: "",
+        productCode: "",
+      });
+      setValueContext("selected.product", "");
     } else {
-      setValue("data", [
-        ...data,
-        {
-          ...param,
-          notes: param?.notes || "-",
-        },
-      ]);
+      alert("Please Check Your Input");
     }
-    resetField("param", {
-      qty: 0,
-      uom: "",
-      product: "",
-      stock: 0,
-      price: 0,
-      subtotal: 0,
-      notes: "",
-      productCode: "",
-    });
-    setValueContext("selected.product", "");
   };
 
   const onChangeHandleCheckBoxFreeItem = (e) => {
@@ -206,65 +217,86 @@ const PenjualanPageDashboard = () => {
 
   const btnHandleSimpanTransaksi = useMutation({
     mutationFn: (obj) => {
-      const body = {
-        total_transaksi: obj?.paramTransaksi?.total_transaksi,
-        uang1: obj?.paramTransaksi?.tunai1,
-        uang2: obj?.paramTransaksi?.tunai2,
-        total_uang:
-          parseInt(obj?.paramTransaksi.tunai1) +
-          parseInt(obj?.paramTransaksi.tunai2),
-        customerId: obj?.dataCustomer?.id,
-        payment_method1: selectedCaraBayar1?.label,
-        payment_method2: selectedCaraBayar2?.label,
-        discount: 0,
-        listProduct: obj?.data?.map((item) => ({
-          productId: item.id,
-          price: item.price,
-          qty: item.qty,
+      if (obj?.paramTransaksi?.tunai1 !== 0 && obj?.dataCustomer?.id) {
+        const body = {
+          total_transaksi: obj?.paramTransaksi?.total_transaksi,
+          uang1: obj?.paramTransaksi?.tunai1,
+          uang2: obj?.paramTransaksi?.tunai2,
+          total_uang:
+            parseInt(obj?.paramTransaksi.tunai1) +
+            parseInt(obj?.paramTransaksi.tunai2),
+          customerId: obj?.dataCustomer?.id,
+          payment_method1: selectedCaraBayar1?.label,
+          payment_method2: selectedCaraBayar2?.label ?? "-",
           discount: 0,
-          subtotal: item.subtotal,
-          notes: item.notes,
-        })),
-        notes: obj?.paramTransaksi?.notes,
-        transaksi_status: obj?.paramTransaksi?.transaksi_status,
-      };
+          listProduct: obj?.data?.map((item) => ({
+            productId: item.id,
+            price: item.price,
+            qty: item.qty,
+            discount: 0,
+            subtotal: item.subtotal,
+            notes: item.notes,
+          })),
+          notes: obj?.paramTransaksi?.notes,
+          transaksi_status: obj?.paramTransaksi?.transaksi_status,
+        };
 
-      return PenjualanAPI.addPenjualan({
-        body,
-      });
+        return PenjualanAPI.addPenjualan({
+          body,
+        });
+      } else {
+        alert("Please Check Your Input Information");
+      }
     },
-    onSuccess: (onSuccess) => {
+    onSuccess: async (onSuccess) => {
       console.log({ onSuccess });
-      $("#ViewPenjualanModal").modal("show");
-      setValue("resultParam", {
-        data: onSuccess?.data?.listProduct,
-        data_info: onSuccess?.data?.result,
-      });
-      resetField("paramTransaksi", {
-        total_transaksi: 0,
-        payment_method1: "Cash",
-        payment_method2: "Cash",
-        transaksi_status: "Lunas",
-        notes: "",
-        uang_total: "",
-        tunai1: 0,
-        tunai2: 0,
-      });
-      resetField("data", []);
-      resetField("param", {
-        qty: 0,
-        uom: "",
-        product: "",
-        stock: 0,
-        price: 0,
-        subtotal: 0,
-        notes: "",
-        productCode: "",
-      });
+      if (onSuccess) {
+        $("#ViewPenjualanModal").modal("show");
+        const result = await PenjualanAPI.getDetailPenjualan(
+          onSuccess?.data?.result?.uuid
+        );
+        console.log({ result });
+        setValue("resultParam", {
+          data: result?.listProduct,
+          data_info: result?.data_info,
+        });
+        resetField("paramTransaksi", {
+          total_transaksi: 0,
+          payment_method1: "Cash",
+          payment_method2: "Cash",
+          transaksi_status: "Lunas",
+          notes: "",
+          uang_total: "",
+          tunai1: 0,
+          tunai2: 0,
+        });
+        resetField("data", []);
+        resetField("param", {
+          qty: 0,
+          uom: "",
+          product: "",
+          stock: 0,
+          price: 0,
+          subtotal: 0,
+          notes: "",
+          productCode: "",
+        });
+      }
+    },
+  });
+
+  const btnDeleteProduct = useMutation({
+    mutationFn: (uuid) => {
+      setValue(
+        "data",
+        data.filter((filter) => filter.uuid !== uuid)
+      );
     },
   });
 
   Loading(btnHandleSimpanTransaksi.isLoading);
+
+  console.log({ data });
 
   return (
     <div className="content-wrapper">
@@ -274,7 +306,10 @@ const PenjualanPageDashboard = () => {
             <FormSearchProduct register={register} />
           </div>
           <div className="card-footer">
-            <button className="btn btn-primary" onClick={btnTambah}>
+            <button
+              className="btn btn-primary"
+              onClick={handleSubmit(btnTambah)}
+            >
               Tambah
             </button>
           </div>
@@ -287,8 +322,10 @@ const PenjualanPageDashboard = () => {
                 subtotal: item.subtotal,
                 qty: (
                   <input
+                    onInput={(value) => Math.abs(value)}
                     className="form-control"
                     type="number"
+                    min={1}
                     value={item.qty}
                     onChange={(e) => {
                       setValue(`data.${idx}.qty`, e.target.value);
@@ -300,7 +337,10 @@ const PenjualanPageDashboard = () => {
                   />
                 ),
                 action: [
-                  <button className="btn btn-danger">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => btnDeleteProduct.mutate(item.uuid)}
+                  >
                     <i className="bx bx-trash"></i>
                   </button>,
                 ],
@@ -320,6 +360,7 @@ const PenjualanPageDashboard = () => {
               onChangeHandleCheckBoxFreeItem={onChangeHandleCheckBoxFreeItem}
               paramTransaksi={paramTransaksi}
               register={register}
+              setValue={setValue}
             />
           </div>
           <div className="card-footer justify-content-end align-items-end text-end">
