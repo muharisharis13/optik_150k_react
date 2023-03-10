@@ -6,6 +6,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminAPI } from "../../../API";
 
+const listRole = [
+  "admin",
+  "kasir",
+  "penjualan",
+  "pembelian"
+]
+
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
@@ -36,7 +43,17 @@ const Login = () => {
             localStorage.setItem("role", data?.role);
             localStorage.setItem("username", data?.username);
             localStorage.setItem("id_admin", data?.id);
-            window.location.href = "/dashboard"
+            switch (data.role) {
+              case "kasir":
+                return window.location.href = "/dashboard/dataPenjualan/penjualan"
+                
+                break;
+                
+                default:
+                  return window.location.href = "/dashboard/dataPenjualan/penjualan"
+                break;
+            }
+            
           }
         } else {
           setAlert(true);
@@ -48,7 +65,25 @@ const Login = () => {
   };
 
   if (Cookie.get("token")) {
-    return (window.location.href = "/dashboard");
+    const role = localStorage.getItem("role")
+    switch (role) {
+      case "kasir":
+        return window.location.href = "/dashboard/dataPenjualan/penjualan"
+        
+        break;
+      case "penjualan":
+        return window.location.href = "/dashboard/dataPenjualan/penjualan/cabang"
+        
+        break;
+      case "pembelian":
+        return window.location.href = "/dashboard/dataPembelian/pembelian"
+        
+        break;
+        
+        default:
+          return window.location.href = "/dashboard"
+        break;
+    }
   }
 
   return (

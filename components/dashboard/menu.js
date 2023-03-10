@@ -1,8 +1,20 @@
 import DataSideMenu from "@utils/SideNavData.json";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { HelmetDashboard } from "@utils";
+
+
+const listRole = [
+  "admin",
+  "kasir",
+  "penjualan",
+  "pembelian"
+]
+
 
 const MenuDashboard = () => {
+  const navigate = useNavigate()
   const [menuActive, setMenuActive] = useState({
     pathname: "",
     title: "",
@@ -15,6 +27,7 @@ const MenuDashboard = () => {
         title: idxProps,
       });
       localStorage.setItem("titleSidebar", idxProps);
+      useNavigate(pathname)
     }
   };
 
@@ -25,19 +38,76 @@ const MenuDashboard = () => {
     });
   }, []);
 
+  const btnLogout = ()=>{
+    localStorage.clear()
+    Cookies.remove("token")
+    Cookies.remove("refreshToken")
+    navigate("/auth/login")
+  }
+
+  const filterRole = filter =>{
+    const role = localStorage.getItem("role")
+
+    switch (role) {
+      case "kasir":
+
+      return filter.title ==="Data Penjualan" || filter.title ==="Data Kwintansi" || filter.title==="Data Pengeluaran" 
+        
+        break;
+
+        case "penjualan":
+          return filter.title ==="Data Penjualan" || filter.title === "Cabang"
+          break;
+        case "pembelian":
+          return filter.title ==="Data Pembelian"
+          break;
+
+          case "admin":
+            return filter.title !== "Cabang" && filter.title !== "Data Pembelian" && filter.title !== "Data Kwintansi" && filter.title !== "Data Pengeluaran"
+            break;
+    
+      default:
+        break;
+    }
+  }
+
+  const filterRoleSubMenu= filter =>{
+    const role = localStorage.getItem("role")
+
+    switch (role) {
+      case "kasir":
+
+      return filter.title ==="Penjualan" || filter.title ==="History Penjualan" || filter.title === "Kwintansi" || filter.title==="Pengeluaran"
+        
+        break;
+        case "penjualan":
+          return filter.title ==="Penjualan Cabang" || filter.title === "History Penjualan Cabang"
+          break;
+
+          case "pembelian":
+            return filter.title ==="Pembelian" || filter.title === "Supplier" || filter.title === "Hitory Pembelian"
+            break;
+    
+      default:
+        return filter
+        break;
+    }
+  }
+
+
+
   return (
     <aside
       id="layout-menu"
       className="layout-menu menu-vertical menu bg-menu-theme"
     >
+      <HelmetDashboard />
       <div className="app-brand demo">
         <a href="index.html" className="app-brand-link">
           <span className="app-brand-logo demo">
             <img src="/assets/logo/logo.png" alt="/assets/logo/logo.png" />
           </span>
-          <span className="app-brand-text demo menu-text fw-bolder ms-2">
-            Sneat
-          </span>
+         
         </a>
 
         <a
@@ -51,7 +121,7 @@ const MenuDashboard = () => {
       <div className="menu-inner-shadow"></div>
 
       <ul className="menu-inner py-1">
-        {DataSideMenu?.map((item, idx) => (
+        {DataSideMenu?.filter(filterRole).map((item, idx) => (
           <li
             className={
               menuActive.pathname === location.pathname &&
@@ -69,11 +139,11 @@ const MenuDashboard = () => {
               href={
                 item.href === "javascript:void(0);"
                   ? "javascript:void(0);"
-                  : item.href
+                  : ""
               }
               onClick={() => handleMenu(item.href, item.title)}
               className={
-                item["sub-menu"]?.length > 0
+                item["sub-menu"].length > 0
                   ? "menu-link menu-toggle"
                   : "menu-link"
               }
@@ -83,7 +153,7 @@ const MenuDashboard = () => {
             </a>
             {item["sub-menu"]?.length > 0 ? (
               <ul className="menu-sub">
-                {item["sub-menu"]?.map((itemSub, idxSub) => (
+                {item["sub-menu"]?.filter(filterRoleSubMenu)?.map((itemSub, idxSub) => (
                   <li
                     key={idxSub}
                     className={
@@ -106,6 +176,12 @@ const MenuDashboard = () => {
             ) : null}
           </li>
         ))}
+        <li class="menu-item">
+              <a href="javascript:void(0);" onClick={btnLogout} className="menu-link">
+                <i className="menu-icon tf-icons bx bx-power-off"></i>
+                <div data-i18n="Analytics">Logout</div>
+              </a>
+            </li>
       </ul>
     </aside>
   );

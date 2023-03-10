@@ -48,6 +48,7 @@ const HelmetDashboard = () => {
       {/* <!-- Helpers --> */}
       <script
         async
+        
         src="/assets/dashboard/assets/vendor/js/helpers.js"
       ></script>
 
@@ -74,13 +75,13 @@ const HelmetDashboard = () => {
         src="/assets/dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"
       ></script>
 
-      <script async src="/assets/dashboard/assets/vendor/js/menu.js"></script>
+      <script async  src="/assets/dashboard/assets/vendor/js/menu.js"></script>
       {/* <!-- endbuild --> */}
 
       {/* <!-- Vendors JS --> */}
 
       {/* <!-- Main JS --> */}
-      <script async src="/assets/dashboard/assets/js/main.js"></script>
+      <script async defer src="/assets/dashboard/assets/js/main.js"></script>
 
       {/* <!-- Page JS --> */}
       <script

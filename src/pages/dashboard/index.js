@@ -56,12 +56,17 @@ const Dashboard = () => {
 
   $("body").on("keydown", function (e) {
     console.log({ e });
-    if (e?.which === 113) {
-      console.log("berhasil");
-      $("#TransaksiByDayModal").modal("show");
-    } else if (e?.which === 115) {
-      $("#InputUangKasirModal").modal("show");
+    const role = localStorage.getItem("role")
+
+    if(role === "admin"){
+      if (e?.which === 113) {
+        console.log("berhasil");
+        $("#TransaksiByDayModal").modal("show");
+      } else if (e?.which === 115) {
+        $("#InputUangKasirModal").modal("show");
+      }
     }
+   
   });
   return (
     <div className="layout-wrapper layout-content-navbar">
