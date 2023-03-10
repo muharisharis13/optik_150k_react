@@ -28,6 +28,22 @@ const PengeluaranDashboardPage = () => {
     name: "search",
     control,
   });
+  const {
+    refetch,
+    isLoading,
+    data: dataPengeluaran,
+  } = useQuery({
+    queryKey: ["getListPengeluaran"],
+    queryFn: () =>
+      pengeluaranAPI.getListPengeluaran({
+        query: {
+          size: 10,
+          page: current_page,
+          column_name: "employee",
+          query: search,
+        },
+      }),
+  });
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
     onSuccess: () => {
@@ -37,10 +53,13 @@ const PengeluaranDashboardPage = () => {
   const btnDelete = useMutation({
     mutationFn: ({ name, uuid }) => {
       const result = confirm(`Apakah Anda Yakin Hapus ${name} ?`);
-      if (result) pengeluaranAPI.deletePengeluaran(uuid);
+      if (result) return pengeluaranAPI.deletePengeluaran(uuid);
     },
-    onSuccess: () => {
-      refetch();
+    onSuccess: (onSuccess) => {
+      console.log({onSuccess})
+      if(onSuccess){
+        refetch();
+      }
     },
   });
 
@@ -65,22 +84,7 @@ const PengeluaranDashboardPage = () => {
     },
   });
 
-  const {
-    refetch,
-    isLoading,
-    data: dataPengeluaran,
-  } = useQuery({
-    queryKey: ["getListPengeluaran"],
-    queryFn: () =>
-      pengeluaranAPI.getListPengeluaran({
-        query: {
-          size: 10,
-          page: current_page,
-          column_name: "employee",
-          query: search,
-        },
-      }),
-  });
+  
   Loading(
     isLoading ||
       btnPagination.isLoading ||

@@ -40,6 +40,23 @@ const ProductPage = () => {
     name: "param",
   });
 
+  const {
+    data: dataQuery,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["getListProdcut"],
+    queryFn: () =>
+      productAPI.getListProduct({
+        query: {
+          size: 10,
+          page: current_page,
+          column_name: "product_name",
+          query: search,
+        },
+      }),
+  });
+
   const btnPagination = useMutation(
     (newPage) => setValue("current_page", newPage),
     {
@@ -116,23 +133,6 @@ const ProductPage = () => {
     onSuccess: () => {
       refetch();
     },
-  });
-
-  const {
-    data: dataQuery,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["getListProdcut"],
-    queryFn: () =>
-      productAPI.getListProduct({
-        query: {
-          size: 10,
-          page: current_page,
-          column_name: "product_name",
-          query: search,
-        },
-      }),
   });
 
   const btnDeleteProduct = useMutation({

@@ -26,6 +26,22 @@ const SupplierPage = () => {
     name: "param",
     control,
   });
+  const {
+    data: dataSupplier,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["getListSupplierPage"],
+    queryFn: () =>
+      supplierAPI.getListSupplier({
+        query: {
+          size: 10,
+          page: current_page,
+          column_name: "supplier_name",
+          query: search,
+        },
+      }),
+  });
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
     onSuccess: () => {
@@ -52,29 +68,17 @@ const SupplierPage = () => {
     mutationFn: ({ uuid, name }) => {
       const result = confirm("Apakah Anda Yakin untuk hapus " + name + "?");
 
-      if (result) supplierAPI.deleteSupplier(uuid);
+      if (result) return supplierAPI.deleteSupplier(uuid);
     },
-    onSuccess: () => {
-      refetch();
+    onSuccess: (onSuccess) => {
+      if(onSuccess){
+
+        refetch();
+      }
     },
   });
 
-  const {
-    data: dataSupplier,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["getListSupplier"],
-    queryFn: () =>
-      supplierAPI.getListSupplier({
-        query: {
-          size: 10,
-          page: current_page,
-          column_name: "supplier_name",
-          query: search,
-        },
-      }),
-  });
+  
 
   Loading(
     isLoading ||

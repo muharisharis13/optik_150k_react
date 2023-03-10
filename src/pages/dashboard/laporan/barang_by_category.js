@@ -21,8 +21,8 @@ const BarangByCategory = () => {
 
   Loading(isLoading);
   return (
-    <div className="container align-items-center justify-content-center">
-      <h4 className="text-center text-uppercase">Barang By Category Report</h4>
+    <div className="container align-items-center justify-content-center mt-5">
+      <h4 className="text-center text-uppercase">Barang By Category Report {parameter?.category_name}</h4>
       <Tables
         column={column}
         isPagination={false}

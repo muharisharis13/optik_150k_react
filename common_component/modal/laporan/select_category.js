@@ -15,7 +15,7 @@ const ModalSelectCategory = () => {
         <a
           className="btn btn-primary"
           target="__blank"
-          href={`/view/barang-by-category?category_id=${selectedCategory?.value}`}
+          href={`/view/barang-by-category?category_id=${selectedCategory?.value}&category_name=${selectedCategory?.label}`}
         >
           Lanjutkan
         </a>,

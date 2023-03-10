@@ -4,6 +4,7 @@ import PelunasanCabangModal from "./pelunasan";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { penjualanCabangAPI } from "../../../API";
+import { MoneyFormatZero } from "@utils";
 
 const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
   const navigate = useNavigate();
@@ -88,6 +89,14 @@ const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
 export default ViewPenjualanCabangModal;
 
 const FormInfo = ({ data }) => {
+
+  const validateViewFormInfo = (value,name)=>{
+    if(name==="total_transaksi_cabang" ||name==="uang1" || name==="uang2" || name==="uang_total"){
+      return MoneyFormatZero(value)
+    }else{
+      return value
+    }
+  }
   return (
     <div className="card-body">
       <h4>Info Penjualan</h4>
@@ -97,7 +106,7 @@ const FormInfo = ({ data }) => {
             <div className="row mt-4">
               <div className="col-md-2 col-lg-2">{name}</div>
               <div className="col-md-4 col-lg-4">
-                : {value?.nama_cabang ?? value}
+                : {value?.nama_cabang ?? validateViewFormInfo(value,name)}
               </div>
             </div>
           );

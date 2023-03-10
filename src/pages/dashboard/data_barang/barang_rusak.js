@@ -27,6 +27,23 @@ const BarangRusakPage = () => {
     name: "param",
     control,
   });
+
+  const {
+    data: dataBarangRusak,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["getListBarangRusak"],
+    queryFn: () =>
+      barangRusakAPI.getListBarangRusak({
+        query: {
+          size: 10,
+          page: current_page,
+          column_name: "product.product_name",
+          query: search,
+        },
+      }),
+  });
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
     onSuccess: () => {
@@ -45,10 +62,13 @@ const BarangRusakPage = () => {
     mutationFn: ({ name, uuid }) => {
       const result = confirm(`Apakah Anda Yakin Untuk Hapus ${name} ? `);
 
-      if (result) barangRusakAPI.deleteBarangRusak({ uuid });
+      if (result)return barangRusakAPI.deleteBarangRusak({ uuid });
     },
-    onSuccess: () => {
-      refetch();
+    onSuccess: (onSuccess) => {
+      console.log({onSuccess})
+      if(onSuccess?.data){
+        refetch();
+      }
     },
   });
 
@@ -63,22 +83,7 @@ const BarangRusakPage = () => {
     },
   });
 
-  const {
-    data: dataBarangRusak,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["getListBarangRusak"],
-    queryFn: () =>
-      barangRusakAPI.getListBarangRusak({
-        query: {
-          size: 10,
-          page: current_page,
-          column_name: "product.product_name",
-          query: search,
-        },
-      }),
-  });
+ 
 
   Loading(
     isLoading ||

@@ -28,14 +28,14 @@ const FormInfoPenjualan = ({ param_transaksi, register }) => {
             value={MoneyFormatZero(param_transaksi.total_transaksi_cabang)}
           />
         </div>
-        <div className="col-md-3 col-lg-3 p-1">
+        {/* <div className="col-md-3 col-lg-3 p-1">
           <label className="form-label">Cara Bayar 1</label>
           <SelectCaraBayar />
-        </div>
-        <div className="col-md-3 col-lg-3 p-1">
+        </div> */}
+        {/* <div className="col-md-3 col-lg-3 p-1">
           <label className="form-label">Cara Bayar 2</label>
           <SelectCaraBayar caraBayar2={true} />
-        </div>
+        </div> */}
         <div className="col-md-3 col-lg-3 p-1">
           <label className="form-label">Status</label>
           <select

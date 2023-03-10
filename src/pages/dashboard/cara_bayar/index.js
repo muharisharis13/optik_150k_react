@@ -90,7 +90,10 @@ const CaraBayarPage = () => {
           <div className="card-body">
             <button
               className="btn btn-primary"
-              onClick={() => $("#ModalCaraBayar").modal("show")}
+              onClick={() => {
+                $("#ModalCaraBayar").modal("show");
+                setValue("param",{})
+              }}
             >
               Tambah Cara Bayar Baru
             </button>

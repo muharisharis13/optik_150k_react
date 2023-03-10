@@ -26,7 +26,7 @@ const CreateSupplierModal = ({ param }) => {
   const btnSubmit = useMutation({
     mutationFn: ({ param }) => {
       if (param?.uuid) {
-        supplierAPI.updateSupplier({
+       return supplierAPI.updateSupplier({
           uuid: param?.uuid,
           body: {
             supplier_name: param?.supplier_name,
@@ -35,7 +35,7 @@ const CreateSupplierModal = ({ param }) => {
           },
         });
       } else {
-        supplierAPI.addSupplier({
+        return supplierAPI.addSupplier({
           body: {
             supplier_name: param?.supplier_name,
             supplier_address: param?.supplier_address,
@@ -44,9 +44,9 @@ const CreateSupplierModal = ({ param }) => {
         });
       }
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries("getListSupplier");
-      await queryClient.invalidateQueries("getListSupplierSelect");
+    onSuccess: () => {
+       queryClient.invalidateQueries("getListSupplierPage");
+       queryClient.invalidateQueries("getListSupplierSelect");
       $("#CreateSupplierModal").modal("hide");
       // window.location.reload();
     },
@@ -65,7 +65,7 @@ const CreateSupplierModal = ({ param }) => {
 
   return (
     <Modals
-      title="Create Kwitansi"
+      title="Create Supplier"
       idModal="CreateSupplierModal"
       size="md"
       childrenFooter={[

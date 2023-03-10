@@ -20,6 +20,7 @@ const BarangByCategory = () => {
             {item?.category_name}
           </label>
           <Tables
+            useNotFound={false}
             column={column}
             isPagination={false}
             isSearch={false}

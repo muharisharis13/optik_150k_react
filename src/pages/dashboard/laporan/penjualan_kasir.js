@@ -53,7 +53,6 @@ const PenjualanKasirPage = () => {
         })
         .map((itemObj) => (
           <div>
-            {console.log({ itemObj })}
             <h3 className="text-center mt-5 text-uppercase">
               {!isNumeric(parseInt(itemObj))
                 ? itemObj === "customer" && param.view === "cabang"
@@ -96,7 +95,7 @@ const PenjualanKasirPage = () => {
 
                   <Tables
                     useNotFound={false}
-                    column={column}
+                    column={column.filter(filter => param.view !== "cabang" ? filter.title !== "Cabang" : filter)}
                     isPagination={false}
                     isSearch={false}
                     data={item?.listTransaksi?.map((itemTrans) => ({
@@ -163,7 +162,7 @@ const PenjualanKasirPage = () => {
 
                 <Tables
                   useNotFound={false}
-                  column={column}
+                  column={column.filter(filter => param.view !== "cabang" ? filter.title !== "Cabang" : filter)}
                   isPagination={false}
                   isSearch={false}
                   data={data[itemObj].listTransaksi?.map((itemTrans) => ({
@@ -220,6 +219,10 @@ const column = [
   {
     title: "Nama",
     key: "name",
+  },
+  {
+    title: "Cabang",
+    key: "transaksi_info.cabang.nama_cabang",
   },
   {
     title: "Tanggal",

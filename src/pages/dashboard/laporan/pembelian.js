@@ -146,6 +146,10 @@ const column = [
     key: "product.product_name",
   },
   {
+    title: "Supplier",
+    key: "beli_info.supplier.supplier_name",
+  },
+  {
     title: "Satuan",
     key: "product.uom",
   },

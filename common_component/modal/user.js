@@ -38,9 +38,12 @@ const ModalUser = ({ param }) => {
         });
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries("getListAdmin2");
-      $("#ModalUser").modal("hide");
+    onSuccess: (onSuccess) => {
+      if(onSuccess){
+        queryClient.invalidateQueries("getListAdmin2");
+        $("#ModalUser").modal("hide");
+        location.reload();
+      }
     },
   });
 

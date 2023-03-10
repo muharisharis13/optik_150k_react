@@ -58,10 +58,14 @@ const CabangPage = () => {
   const btnDelete = useMutation({
     mutationFn: ({ uuid, nameProp }) => {
       const result = confirm(`Apakah Anda Yakin Hapus ${nameProp} ?`);
-      if (result) cabangAPI.deleteCabang({ uuid: uuid });
+      if (result) return cabangAPI.deleteCabang({ uuid: uuid });
     },
     onSuccess: (onSuccess) => {
-      refetch();
+      console.log({onSuccess})
+      if(onSuccess){
+        location.reload()
+        refetch();
+      }
     },
   });
 

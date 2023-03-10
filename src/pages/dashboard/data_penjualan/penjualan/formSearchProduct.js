@@ -75,7 +75,7 @@ const FormSearchProduct = ({ register }) => {
               placeholder="Qty"
               aria-describedby="defaultFormControlHelp"
               {...register("param.qty")}
-              disabled={selectedProduct.value ? false : true}
+              disabled={selectedProduct?.value ? false : true}
             />
           </div>
         </div>

@@ -19,7 +19,7 @@ const TotalPenjualanModal = () => {
     (prev, curr) => prev + parseInt(curr.total),
     0
   );
-  const paymentCash = metodePembayaran1?.find((find) => (find.type = "cash"));
+  const paymentCash = metodePembayaran1?.find((find) => (find.type == "cash"));
 
   Loading(isLoading);
 
@@ -55,7 +55,7 @@ const TotalPenjualanModal = () => {
             <td>
               Rp.{" "}
               {MoneyFormatZero(
-                parseInt(paymentCash?.total) + parseInt(saldoKasir)
+                parseInt(paymentCash?.total ??0) + parseInt(saldoKasir)
               )}
             </td>
           </tr>

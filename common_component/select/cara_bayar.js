@@ -1,4 +1,4 @@
-import Select from "react-select/creatable";
+import Select from "react-select";
 import { useForm, useWatch, useFormContext } from "react-hook-form";
 import { useQuery } from "react-query";
 import { caraBayarAPI } from "../../API";
@@ -57,7 +57,7 @@ const SelectedCaraBayar = ({ caraBayar2 = false }) => {
         placeholder="Select Cara Bayar"
         value={caraBayar2 ? selectedCaraBayar2 : selectedCaraBayar}
         isLoading={isLoading}
-        options={data?.result?.filter(filterCaraBayar).map((item) => ({
+        options={data?.result?.map((item) => ({
           value: item.id,
           label: item.cara_bayar_name,
         }))}

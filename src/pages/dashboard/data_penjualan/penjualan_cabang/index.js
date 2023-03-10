@@ -166,16 +166,15 @@ const PenjualanCabangPageDashboard = () => {
 
   const btnHandleSimpan = useMutation({
     mutationFn: (obj) => {
-      if (selectedCabang?.value && selectedCaraBayar1) {
+      if (selectedCabang?.value) {
         const body = {
           total_transaksi_cabang: obj?.param_transaksi?.total_transaksi_cabang,
-          uang1: obj?.param_transaksi?.uang1,
+          uang1:  obj?.param_transaksi?.total_transaksi_cabang,
           uang2: obj?.param_transaksi?.uang2,
           uang_total:
-            parseInt(obj?.param_transaksi?.uang1) +
-            parseInt(obj?.param_transaksi?.uang2),
+          obj?.param_transaksi?.total_transaksi_cabang,
           cabangId: selectedCabang?.value,
-          payment_method1: selectedCaraBayar1?.label,
+          payment_method1: "CREDIT",
           payment_method2: selectedCaraBayar2?.label,
           discount: 0,
           notes: obj?.param_transaksi?.notes,

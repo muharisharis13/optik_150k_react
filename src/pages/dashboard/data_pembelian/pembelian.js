@@ -46,6 +46,7 @@ const PembelianPage = () => {
     control,
   });
 
+
   const getDetailProduct = useMutation({
     mutationFn: (uuid) => productAPI.getDetailProduct(uuid),
     onSuccess: (onSuccess) => setValue("paramInput", onSuccess),
@@ -57,44 +58,54 @@ const PembelianPage = () => {
 
   const btnTambah = useMutation({
     mutationFn: ({ paramInput }) => {
-      const findDuplicate = paramListProduct?.find(
-        (find) => find?.productCode === paramInput?.productCode
-      );
-
-      if (findDuplicate?.productCode) {
-        setValue(
-          "param.listProduct",
-          paramListProduct.map((obj) =>
-            obj.productCode === findDuplicate?.productCode
-              ? {
-                  ...obj,
-                  qty: parseInt(obj.qty) + parseInt(paramInput?.qty),
-                }
-              : obj
-          )
+      console.log({paramInput})
+      if(selectedProduct?.value && paramInput?.qty){
+        const findDuplicate = paramListProduct?.find(
+          (find) => find?.productCode === paramInput?.productCode
         );
+  
+        if (findDuplicate?.productCode) {
+          setValue(
+            "param.listProduct",
+            paramListProduct.map((obj) =>
+              obj.productCode === findDuplicate?.productCode
+                ? {
+                    ...obj,
+                    qty: parseInt(obj.qty) + parseInt(paramInput?.qty),
+                    subtotal: parseInt(parseInt(obj.qty) + parseInt(paramInput?.qty)) * parseInt(paramInput?.price),
+                    capital_price : parseInt(paramInput?.capital_price),
+                    price : parseInt(paramInput?.price)
+                  }
+                : obj
+            )
+          );
+        } else {
+          setValue("param.listProduct", [
+            ...paramListProduct,
+            {
+              ...paramInput,
+              subtotal: parseInt(paramInput?.qty) * parseInt(paramInput?.price),
+            },
+          ]);
+        }
+        resetField("paramInput", {
+          product_name: "",
+          uom: "",
+          capital_price: "",
+          price: "",
+          qty: "",
+        });
+        setValueContext("selected.product", "");
       } else {
-        setValue("param.listProduct", [
-          ...paramListProduct,
-          {
-            ...paramInput,
-            subtotal: parseInt(paramInput?.qty) * parseInt(paramInput?.price),
-          },
-        ]);
+        alert("Please Check your input")
       }
-      resetField("paramInput", {
-        product_name: "",
-        uom: "",
-        capital_price: "",
-        price: "",
-        qty: "",
-      });
-      setValueContext("selected.product", "");
+     
     },
   });
 
   const btnSimpan = useMutation({
     mutationFn: ({ param }) => {
+      console.log({param})
       const body = {
         beli_tanggal: param?.beli_tanggal,
         supplierId: selectedSupplier?.value,
@@ -103,10 +114,10 @@ const PembelianPage = () => {
           price: item?.price,
           qty: item?.qty,
           subtotal: item?.subtotal,
+          capital_price:item?.capital_price
         })),
       };
 
-      console.log({ param });
 
       return pembelianAPI.addPembelian({
         body,
@@ -119,11 +130,15 @@ const PembelianPage = () => {
   });
 
   const btnDelete = useMutation({
-    mutationFn: (id) =>
+    mutationFn: (item) =>{
+
+      console.log({item})
       setValue(
         "param.listProduct",
-        paramListProduct.filter((filter) => filter.productId !== id)
-      ),
+        paramListProduct.filter((filter) => filter.id !== item.id)
+      )
+    }
+      ,
   });
 
   Loading(getDetailProduct.isLoading || btnSimpan.isLoading);
@@ -269,7 +284,7 @@ const PembelianPage = () => {
                 action: [
                   <button
                     className="btn text-danger"
-                    onClick={() => btnDelete.mutate(item.productId)}
+                    onClick={() => btnDelete.mutate(item)}
                   >
                     <i className="bx bx-trash"></i>
                   </button>,
