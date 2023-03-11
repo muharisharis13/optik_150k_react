@@ -60,7 +60,7 @@ const FormSearchProduct = ({ register }) => {
               placeholder="Harga"
               aria-describedby="defaultFormControlHelp"
               disabled
-              {...register("param.price")}
+              {...register("param.branch_price")}
             />
           </div>
         </div>

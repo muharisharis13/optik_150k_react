@@ -83,6 +83,20 @@ const ModalProducts = ({
         </div>
         <div className="col-md-6 col-lg-6 col-sm-12 p-1">
           <div>
+            <label htmlFor="Harga Jual" className="form-label">
+              Harga Jual Cabang
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="Harga Jual"
+              placeholder="Harga Jual"
+              {...register("param.branch_price")}
+            />
+          </div>
+        </div>
+        <div className="col-md-6 col-lg-6 col-sm-12 p-1">
+          <div>
             <label htmlFor="Stock" className="form-label">
               Stock
             </label>

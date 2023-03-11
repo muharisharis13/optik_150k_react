@@ -24,6 +24,7 @@ const PembelianPage = () => {
         uom: "",
         capital_price: "",
         price: "",
+        branch_price: "",
         qty: 0,
       },
     },
@@ -46,7 +47,6 @@ const PembelianPage = () => {
     control,
   });
 
-
   const getDetailProduct = useMutation({
     mutationFn: (uuid) => productAPI.getDetailProduct(uuid),
     onSuccess: (onSuccess) => setValue("paramInput", onSuccess),
@@ -58,12 +58,12 @@ const PembelianPage = () => {
 
   const btnTambah = useMutation({
     mutationFn: ({ paramInput }) => {
-      console.log({paramInput})
-      if(selectedProduct?.value && paramInput?.qty){
+      console.log({ paramInput });
+      if (selectedProduct?.value && paramInput?.qty) {
         const findDuplicate = paramListProduct?.find(
           (find) => find?.productCode === paramInput?.productCode
         );
-  
+
         if (findDuplicate?.productCode) {
           setValue(
             "param.listProduct",
@@ -72,9 +72,12 @@ const PembelianPage = () => {
                 ? {
                     ...obj,
                     qty: parseInt(obj.qty) + parseInt(paramInput?.qty),
-                    subtotal: parseInt(parseInt(obj.qty) + parseInt(paramInput?.qty)) * parseInt(paramInput?.price),
-                    capital_price : parseInt(paramInput?.capital_price),
-                    price : parseInt(paramInput?.price)
+                    subtotal:
+                      parseInt(parseInt(obj.qty) + parseInt(paramInput?.qty)) *
+                      parseInt(paramInput?.price),
+                    capital_price: parseInt(paramInput?.capital_price),
+                    price: parseInt(paramInput?.price),
+                    branch_price: parseInt(paramInput?.branch_price),
                   }
                 : obj
             )
@@ -97,15 +100,14 @@ const PembelianPage = () => {
         });
         setValueContext("selected.product", "");
       } else {
-        alert("Please Check your input")
+        alert("Please Check your input");
       }
-     
     },
   });
 
   const btnSimpan = useMutation({
     mutationFn: ({ param }) => {
-      console.log({param})
+      console.log({ param });
       const body = {
         beli_tanggal: param?.beli_tanggal,
         supplierId: selectedSupplier?.value,
@@ -114,10 +116,10 @@ const PembelianPage = () => {
           price: item?.price,
           qty: item?.qty,
           subtotal: item?.subtotal,
-          capital_price:item?.capital_price
+          capital_price: item?.capital_price,
+          branch_price: item?.branch_price,
         })),
       };
-
 
       return pembelianAPI.addPembelian({
         body,
@@ -130,15 +132,13 @@ const PembelianPage = () => {
   });
 
   const btnDelete = useMutation({
-    mutationFn: (item) =>{
-
-      console.log({item})
+    mutationFn: (item) => {
+      console.log({ item });
       setValue(
         "param.listProduct",
         paramListProduct.filter((filter) => filter.id !== item.id)
-      )
-    }
-      ,
+      );
+    },
   });
 
   Loading(getDetailProduct.isLoading || btnSimpan.isLoading);
@@ -230,6 +230,19 @@ const PembelianPage = () => {
                     placeholder="Harga Jual"
                     className="form-control"
                     {...register("paramInput.price")}
+                  />
+                </div>
+              </div>
+              <div className="col-auto">
+                <div>
+                  <label htmlFor="" className="form-label">
+                    Harga Jual Cabang
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Harga Jual"
+                    className="form-control"
+                    {...register("paramInput.branch_price")}
                   />
                 </div>
               </div>
@@ -329,6 +342,10 @@ const column = [
   {
     title: "Harga Jual",
     key: "price",
+  },
+  {
+    title: "Harga Jual Cabang",
+    key: "branch_price",
   },
   {
     title: "Qty",

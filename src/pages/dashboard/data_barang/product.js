@@ -14,6 +14,7 @@ const ProductPage = () => {
         product_name: "",
         uom: "",
         capital_price: "",
+        branch_price: "",
         price: "",
         stock: "",
         min_stock: "",
@@ -72,6 +73,7 @@ const ProductPage = () => {
         body: {
           product_name: param.product_name,
           uom: param.uom,
+          branch_price: param.branch_price,
           capital_price: param.capital_price,
           price: param.price,
           stock: param.stock,
@@ -267,6 +269,10 @@ const column = [
   {
     title: "Harga Modal",
     key: "capital_price",
+  },
+  {
+    title: "Harga Jual Cabang",
+    key: "branch_price",
   },
   {
     title: "Harga Jual",

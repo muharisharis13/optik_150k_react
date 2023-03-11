@@ -21,7 +21,7 @@ const PenjualanCabangPageDashboard = () => {
           uom: "",
           product: "",
           stock: 0,
-          price: 0,
+          branch_price: 0,
           subtotal: 0,
           notes: "",
           productCode: "",
@@ -72,7 +72,7 @@ const PenjualanCabangPageDashboard = () => {
   });
   const paramPrice = useWatch({
     control,
-    name: "param.price",
+    name: "param.branch_price",
   });
 
   const param = useWatch({
@@ -134,7 +134,7 @@ const PenjualanCabangPageDashboard = () => {
                   qty: parseInt(obj.qty) + parseInt(paramQty),
                   subtotal:
                     (parseInt(obj.qty) + parseInt(paramQty)) *
-                    parseInt(obj.price),
+                    parseInt(obj.branch_price),
                 }
               : obj
           )
@@ -153,7 +153,7 @@ const PenjualanCabangPageDashboard = () => {
         uom: "",
         product: "",
         stock: 0,
-        price: 0,
+        branch_price: 0,
         subtotal: 0,
         notes: "",
         productCode: "",
@@ -169,10 +169,9 @@ const PenjualanCabangPageDashboard = () => {
       if (selectedCabang?.value) {
         const body = {
           total_transaksi_cabang: obj?.param_transaksi?.total_transaksi_cabang,
-          uang1:  obj?.param_transaksi?.total_transaksi_cabang,
+          uang1: obj?.param_transaksi?.total_transaksi_cabang,
           uang2: obj?.param_transaksi?.uang2,
-          uang_total:
-          obj?.param_transaksi?.total_transaksi_cabang,
+          uang_total: obj?.param_transaksi?.total_transaksi_cabang,
           cabangId: selectedCabang?.value,
           payment_method1: "CREDIT",
           payment_method2: selectedCaraBayar2?.label,
@@ -181,7 +180,7 @@ const PenjualanCabangPageDashboard = () => {
           transaksi_status: obj?.param_transaksi?.transaksi_status,
           listProduct: obj?.data?.map((item) => ({
             productId: item.id,
-            price: item.price,
+            branch_price: item.branch_price,
             qty: item.qty,
             discount: 0,
             subtotal: item.subtotal,
@@ -212,7 +211,7 @@ const PenjualanCabangPageDashboard = () => {
           uom: "",
           product: "",
           stock: 0,
-          price: 0,
+          branch_price: 0,
           subtotal: 0,
           notes: "",
           productCode: "",
@@ -262,7 +261,7 @@ const PenjualanCabangPageDashboard = () => {
               data={data.map((item, idx) => ({
                 ...item,
                 subtotal: item.subtotal,
-                price: MoneyFormatZero(item.price),
+                branch_price: MoneyFormatZero(item.branch_price),
                 qty: (
                   <input
                     className="form-control"
@@ -272,7 +271,7 @@ const PenjualanCabangPageDashboard = () => {
                       setValue(`data.${idx}.qty`, e.target.value);
                       setValue(
                         `data.${idx}.subtotal`,
-                        parseInt(item.price) * parseInt(e.target.value)
+                        parseInt(item.branch_price) * parseInt(e.target.value)
                       );
                     }}
                   />
@@ -340,7 +339,7 @@ const column = [
   },
   {
     title: "Harga Jual",
-    key: "price",
+    key: "branch_price",
   },
   {
     title: "Keterangan",
