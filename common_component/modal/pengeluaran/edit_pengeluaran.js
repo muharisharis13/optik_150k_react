@@ -105,7 +105,7 @@ const EditPengeluaranModal = ({ param }) => {
           id="Karyawan"
           placeholder="Karyawan"
           aria-describedby="defaultFormControlHelp"
-          {...register("param.keterangan")}
+          {...register("param.employee")}
         />
       </div>
       <div>
@@ -118,7 +118,7 @@ const EditPengeluaranModal = ({ param }) => {
           id="Keterangan"
           placeholder="Keterangan"
           aria-describedby="defaultFormControlHelp"
-          {...register("param.employee")}
+          {...register("param.keterangan")}
         />
       </div>
     </Modal>

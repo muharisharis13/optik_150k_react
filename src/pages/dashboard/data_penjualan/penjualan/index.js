@@ -96,6 +96,8 @@ const PenjualanPageDashboard = () => {
     control,
   });
 
+  const role = localStorage.getItem("role");
+
   const getDetailProduct = useMutation({
     mutationFn: (uuid) => productAPI.getDetailProduct(uuid),
     onSuccess: (onSuccess) => {

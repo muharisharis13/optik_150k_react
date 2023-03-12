@@ -210,7 +210,7 @@ const PembelianPage = () => {
               <div className="col-auto">
                 <div>
                   <label htmlFor="" className="form-label">
-                    Harga Pokok
+                    Harga Beli
                   </label>
                   <input
                     type="number"
@@ -220,7 +220,7 @@ const PembelianPage = () => {
                   />
                 </div>
               </div>
-              <div className="col-auto">
+              {/* <div className="col-auto">
                 <div>
                   <label htmlFor="" className="form-label">
                     Harga Jual
@@ -232,8 +232,8 @@ const PembelianPage = () => {
                     {...register("paramInput.price")}
                   />
                 </div>
-              </div>
-              <div className="col-auto">
+              </div> */}
+              {/* <div className="col-auto">
                 <div>
                   <label htmlFor="" className="form-label">
                     Harga Jual Cabang
@@ -245,9 +245,7 @@ const PembelianPage = () => {
                     {...register("paramInput.branch_price")}
                   />
                 </div>
-              </div>
-            </div>
-            <div className="row mt-2">
+              </div> */}
               <div className="col-md-3 col-lg-3">
                 <div>
                   <label htmlFor="" className="form-label">

@@ -39,7 +39,7 @@ const ModalUser = ({ param }) => {
       }
     },
     onSuccess: (onSuccess) => {
-      if(onSuccess){
+      if (onSuccess) {
         queryClient.invalidateQueries("getListAdmin2");
         $("#ModalUser").modal("hide");
         location.reload();
@@ -71,45 +71,49 @@ const ModalUser = ({ param }) => {
       ]}
     >
       <div className="row">
-        <div className="col-md-6 col-lg-6">
-          <div>
-            <label htmlFor="" className="form-label">
-              username
-            </label>
-            <input
-              type="text"
-              placeholder="username"
-              className="form-control"
-              {...register("username")}
-            />
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-6">
-          <div>
-            <label htmlFor="" className="form-label">
-              nama
-            </label>
-            <input
-              type="text"
-              placeholder="nama"
-              className="form-control"
-              {...register("name")}
-            />
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-6">
-          <div>
-            <label htmlFor="" className="form-label">
-              password
-            </label>
-            <input
-              type="password"
-              placeholder="nama"
-              className="form-control"
-              {...register("password")}
-            />
-          </div>
-        </div>
+        {param?.uuid ? null : (
+          <>
+            <div className="col-md-6 col-lg-6">
+              <div>
+                <label htmlFor="" className="form-label">
+                  username
+                </label>
+                <input
+                  type="text"
+                  placeholder="username"
+                  className="form-control"
+                  {...register("username")}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-lg-6">
+              <div>
+                <label htmlFor="" className="form-label">
+                  nama
+                </label>
+                <input
+                  type="text"
+                  placeholder="nama"
+                  className="form-control"
+                  {...register("name")}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-lg-6">
+              <div>
+                <label htmlFor="" className="form-label">
+                  password
+                </label>
+                <input
+                  type="password"
+                  placeholder="nama"
+                  className="form-control"
+                  {...register("password")}
+                />
+              </div>
+            </div>
+          </>
+        )}
         <div className="col-md-6 col-lg-6">
           <div>
             <label htmlFor="" className="form-label">

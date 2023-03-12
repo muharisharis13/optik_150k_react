@@ -59,12 +59,7 @@ const MenuDashboard = () => {
         break;
 
       case "admin":
-        return (
-          filter.title !== "Cabang" &&
-          filter.title !== "Data Pembelian" &&
-          filter.title !== "Data Kwintansi" &&
-          filter.title !== "Data Pengeluaran"
-        );
+        return filter.title !== "Cabang" && filter.title !== "Data Kwintansi";
         break;
 
       default:
@@ -97,6 +92,20 @@ const MenuDashboard = () => {
           filter.title === "Pembelian" ||
           filter.title === "Supplier" ||
           filter.title === "Hitory Pembelian"
+        );
+        break;
+
+      case "admin":
+        return (
+          filter.title === "History Penjualan" ||
+          filter.title === "History Penjualan Cabang" ||
+          filter.title === "Hitory Pembelian" ||
+          filter.title === "Supplier" ||
+          filter.title === "Pembelian" ||
+          filter.title === "Pengeluaran" ||
+          filter.title === "Barang" ||
+          filter.title === "Barang Rusak" ||
+          filter.title === "Category"
         );
         break;
 

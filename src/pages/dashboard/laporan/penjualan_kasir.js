@@ -87,7 +87,7 @@ const PenjualanKasirPage = () => {
                       :{" "}
                       {item.customer_name ||
                         item.category_name ||
-                        item.productCode ||
+                        item.product_name ||
                         item.cara_bayar_name ||
                         item.nama_cabang}
                     </div>
@@ -95,7 +95,11 @@ const PenjualanKasirPage = () => {
 
                   <Tables
                     useNotFound={false}
-                    column={column.filter(filter => param.view !== "cabang" ? filter.title !== "Cabang" : filter)}
+                    column={column.filter((filter) =>
+                      param.view !== "cabang"
+                        ? filter.title !== "Cabang"
+                        : filter
+                    )}
                     isPagination={false}
                     isSearch={false}
                     data={item?.listTransaksi?.map((itemTrans) => ({
@@ -162,7 +166,9 @@ const PenjualanKasirPage = () => {
 
                 <Tables
                   useNotFound={false}
-                  column={column.filter(filter => param.view !== "cabang" ? filter.title !== "Cabang" : filter)}
+                  column={column.filter((filter) =>
+                    param.view !== "cabang" ? filter.title !== "Cabang" : filter
+                  )}
                   isPagination={false}
                   isSearch={false}
                   data={data[itemObj].listTransaksi?.map((itemTrans) => ({

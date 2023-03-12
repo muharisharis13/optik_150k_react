@@ -6,6 +6,7 @@ import { ViewPenjualanCabangModal } from "../../../../../common_component/modal/
 import { useQuery, useMutation } from "react-query";
 import { penjualanCabangAPI } from "../../../../../API";
 import { Loading } from "@utils";
+import { useEffect } from "react";
 
 const HistoryPenjualanCabang = () => {
   const { control, setValue, register, handleSubmit } = useForm({
@@ -39,6 +40,8 @@ const HistoryPenjualanCabang = () => {
     control,
     name: "param",
   });
+
+  const role = localStorage.getItem("role");
 
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
@@ -77,6 +80,12 @@ const HistoryPenjualanCabang = () => {
       }),
   });
 
+  useEffect(() => {
+    if (role === "admin") {
+      dataCabang.mutate();
+    }
+  }, []);
+
   Loading(
     dataCabang?.isLoading ||
       btnPagination.isLoading ||
@@ -96,41 +105,41 @@ const HistoryPenjualanCabang = () => {
             />
           </div>
         </div>
-        {dataCabang?.data?.result?.length > 0 ? (
-          <div className="card mt-2">
-            <div className="card-body">
-              <Tables
-                column={column}
-                data={dataCabang?.data?.result
-                  ?.map((item) => ({
-                    ...item,
-                    cabang: item?.cabang?.nama_cabang ? item.cabang : {},
-                  }))
-                  .map((item) => ({
-                    ...item,
-                    status_selling: (
-                      <span class="badge rounded-pill bg-success">
-                        {item.status_selling}
-                      </span>
-                    ),
-                    action: (
-                      <button
-                        className="btn text-primary"
-                        onClick={() => btnHandleModal.mutate(item.uuid)}
-                      >
-                        <i className="bx bx-edit"></i>
-                        View
-                      </button>
-                    ),
-                  }))}
-                btnPagination={btnPagination.mutate}
-                current_page={dataCabang?.data?.currentPage}
-                total_page={dataCabang?.data?.totalPages}
-                isSearch={false}
-              />
-            </div>
+        <div className="card mt-2">
+          <div className="card-body">
+            <Tables
+              column={column}
+              data={dataCabang?.data?.result
+                ?.map((item) => ({
+                  ...item,
+                  cabang: item?.cabang?.nama_cabang ? item.cabang : {},
+                }))
+                .map((item) => ({
+                  ...item,
+                  status_selling: (
+                    <span class="badge rounded-pill bg-success">
+                      {item.status_selling}
+                    </span>
+                  ),
+                  action: (
+                    <button
+                      className="btn text-primary"
+                      onClick={() => btnHandleModal.mutate(item.uuid)}
+                    >
+                      <i className="bx bx-edit"></i>
+                      View
+                    </button>
+                  ),
+                }))}
+              btnPagination={btnPagination.mutate}
+              current_page={dataCabang?.data?.currentPage ?? 1}
+              total_page={dataCabang?.data?.totalPages ?? 1}
+              registerSearch={role === "admin" ? register : null}
+              btnSearch={role === "admin" ? btnSearch.mutate : null}
+              isSearch={false}
+            />
           </div>
-        ) : null}
+        </div>
       </div>
 
       {/* MODAL ====== */}

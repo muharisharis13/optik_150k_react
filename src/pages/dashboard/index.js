@@ -56,9 +56,9 @@ const Dashboard = () => {
 
   $("body").on("keydown", function (e) {
     console.log({ e });
-    const role = localStorage.getItem("role")
+    const role = localStorage.getItem("role");
 
-    if(role === "admin"){
+    if (role === "admin" || role === "kasir") {
       if (e?.which === 113) {
         console.log("berhasil");
         $("#TransaksiByDayModal").modal("show");
@@ -66,7 +66,6 @@ const Dashboard = () => {
         $("#InputUangKasirModal").modal("show");
       }
     }
-   
   });
   return (
     <div className="layout-wrapper layout-content-navbar">

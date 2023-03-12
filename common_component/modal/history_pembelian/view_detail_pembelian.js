@@ -1,5 +1,6 @@
 import Modal from "../../modals";
 import { Tables } from "../..";
+import { MoneyFormatZero } from "@utils";
 
 const ViewDetailPembelian = ({ dataTable = [], data_info = {} }) => {
   return (
@@ -20,6 +21,15 @@ const ViewDetailPembelian = ({ dataTable = [], data_info = {} }) => {
           </div>
         );
       })}
+      <div className="row">
+        <div className="col-md-3 col-lg-2 form-label">Total Pembelian</div>
+        <div className="col-md-3 col-lg-8">
+          :{" "}
+          {MoneyFormatZero(
+            dataTable.reduce((prev, curr) => prev + parseInt(curr.subtotal), 0)
+          )}
+        </div>
+      </div>
 
       <div className="container-list-product mt-5">
         <h5>List Product</h5>

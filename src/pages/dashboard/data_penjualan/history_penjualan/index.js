@@ -6,6 +6,7 @@ import { ViewPenjualanModal } from "../../../../../common_component/modal/histor
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { PenjualanAPI } from "../../../../../API";
 import { Loading, MoneyFormatZero, DateFormatMonthName } from "@utils";
+import { useEffect } from "react";
 
 const HistoryPenjualan = () => {
   const queryClient = useQueryClient();
@@ -40,6 +41,8 @@ const HistoryPenjualan = () => {
     name: "search",
     control,
   });
+
+  const role = localStorage.getItem("role");
 
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
@@ -78,6 +81,12 @@ const HistoryPenjualan = () => {
       }),
   });
 
+  useEffect(() => {
+    if (role === "admin") {
+      dataPenjualan.mutate();
+    }
+  }, []);
+
   Loading(
     dataPenjualan.isLoading ||
       btnPagination.isLoading ||
@@ -99,48 +108,48 @@ const HistoryPenjualan = () => {
             />
           </div>
         </div>
-        {dataPenjualan?.data?.result?.length > 0 ? (
-          <div className="card mt-2">
-            <div className="card-body">
-              <Tables
-                column={column}
-                data={dataPenjualan?.data?.result?.map((item) => ({
-                  ...item,
-                  createdAt: DateFormatMonthName(item.createdAt),
-                  total_uang: "Rp. " + MoneyFormatZero(item.total_uang),
-                  transaksi_status: item.transaksi_status ? (
-                    <span
-                      className={`badge w-100 rounded-pill ${
-                        item.transaksi_status === "COMPLETE"
-                          ? "bg-success"
-                          : item.transaksi_status === "DP"
-                          ? "bg-info"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {item.transaksi_status}
-                    </span>
-                  ) : (
-                    item.transaksi_status
-                  ),
-                  action: (
-                    <button
-                      className="btn text-primary"
-                      onClick={() => btnModalDetail.mutate(item.uuid)}
-                    >
-                      <i className="bx bx-edit"></i>
-                      View
-                    </button>
-                  ),
-                }))}
-                btnPagination={btnPagination.mutate}
-                current_page={dataPenjualan?.data.currentPage}
-                total_page={dataPenjualan?.data.totalPages}
-                isSearch={false}
-              />
-            </div>
+        <div className="card mt-2">
+          <div className="card-body">
+            <Tables
+              column={column}
+              data={dataPenjualan?.data?.result?.map((item) => ({
+                ...item,
+                createdAt: DateFormatMonthName(item.createdAt),
+                total_uang: "Rp. " + MoneyFormatZero(item.total_uang),
+                transaksi_status: item.transaksi_status ? (
+                  <span
+                    className={`badge w-100 rounded-pill ${
+                      item.transaksi_status === "COMPLETE"
+                        ? "bg-success"
+                        : item.transaksi_status === "DP"
+                        ? "bg-info"
+                        : "bg-danger"
+                    }`}
+                  >
+                    {item.transaksi_status}
+                  </span>
+                ) : (
+                  item.transaksi_status
+                ),
+                action: (
+                  <button
+                    className="btn text-primary"
+                    onClick={() => btnModalDetail.mutate(item.uuid)}
+                  >
+                    <i className="bx bx-edit"></i>
+                    View
+                  </button>
+                ),
+              }))}
+              registerSearch={role === "admin" ? register : null}
+              btnSearch={role === "admin" ? btnSearch.mutate : null}
+              btnPagination={btnPagination.mutate}
+              current_page={dataPenjualan?.data?.currentPage ?? 1}
+              total_page={dataPenjualan?.data?.totalPages ?? 1}
+              isSearch={false}
+            />
           </div>
-        ) : null}
+        </div>
       </div>
 
       {/* MODAL ====== */}
