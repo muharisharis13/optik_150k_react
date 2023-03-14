@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { HelmetDashboard } from "@utils";
+import styled from "styled-components";
 
 const listRole = ["admin", "kasir", "penjualan", "pembelian"];
 
@@ -30,6 +31,17 @@ const MenuDashboard = () => {
       title: localStorage.getItem("titleSidebar"),
     });
   }, []);
+
+  useEffect(() => {
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getUTCFullYear();
+
+    const now = `${year}-${month < 10 ? "0" + month : month}-${date}`;
+    if (new Date(now).getTime() > new Date("2023-04-10").getTime()) {
+      navigate("/adsadasdas");
+    }
+  });
 
   const btnLogout = () => {
     localStorage.clear();

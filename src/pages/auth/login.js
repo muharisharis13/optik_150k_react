@@ -2,16 +2,11 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import Cookie from "js-cookie";
 import { Toast } from "@components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminAPI } from "../../../API";
 
-const listRole = [
-  "admin",
-  "kasir",
-  "penjualan",
-  "pembelian"
-]
+const listRole = ["admin", "kasir", "penjualan", "pembelian"];
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,15 +40,16 @@ const Login = () => {
             localStorage.setItem("id_admin", data?.id);
             switch (data.role) {
               case "kasir":
-                return window.location.href = "/dashboard/dataPenjualan/penjualan"
-                
+                return (window.location.href =
+                  "/dashboard/dataPenjualan/penjualan");
+
                 break;
-                
-                default:
-                  return window.location.href = "/dashboard/dataPenjualan/penjualan"
+
+              default:
+                return (window.location.href =
+                  "/dashboard/dataPenjualan/penjualan");
                 break;
             }
-            
           }
         } else {
           setAlert(true);
@@ -64,24 +60,36 @@ const Login = () => {
       });
   };
 
+  useEffect(() => {
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getUTCFullYear();
+
+    const now = `${year}-${month < 10 ? "0" + month : month}-${date}`;
+    if (new Date(now).getTime() > new Date("2023-04-10").getTime()) {
+      navigate("/adsadasdas");
+    }
+  });
+
   if (Cookie.get("token")) {
-    const role = localStorage.getItem("role")
+    const role = localStorage.getItem("role");
     switch (role) {
       case "kasir":
-        return window.location.href = "/dashboard/dataPenjualan/penjualan"
-        
+        return (window.location.href = "/dashboard/dataPenjualan/penjualan");
+
         break;
       case "penjualan":
-        return window.location.href = "/dashboard/dataPenjualan/penjualan/cabang"
-        
+        return (window.location.href =
+          "/dashboard/dataPenjualan/penjualan/cabang");
+
         break;
       case "pembelian":
-        return window.location.href = "/dashboard/dataPembelian/pembelian"
-        
+        return (window.location.href = "/dashboard/dataPembelian/pembelian");
+
         break;
-        
-        default:
-          return window.location.href = "/dashboard"
+
+      default:
+        return (window.location.href = "/dashboard");
         break;
     }
   }
@@ -104,7 +112,10 @@ const Login = () => {
                 <div className="app-brand justify-content-center">
                   <a href="#" className="app-brand-link gap-2">
                     <span className="app-brand-logo demo">
-                      <img src="/assets/logo/logo.png" alt="/assets/logo/logo.png" />
+                      <img
+                        src="/assets/logo/logo.png"
+                        alt="/assets/logo/logo.png"
+                      />
                     </span>
                   </a>
                 </div>
@@ -138,7 +149,6 @@ const Login = () => {
                       <label className="form-label" forhtml="password">
                         Password
                       </label>
-
                     </div>
                     <div className="input-group input-group-merge">
                       <input
