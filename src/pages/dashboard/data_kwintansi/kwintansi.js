@@ -1,6 +1,9 @@
 import { Tables } from "../../../../common_component";
 import { useForm, useWatch } from "react-hook-form";
-import { CreateKwitansiModal,PrintKwitansiModal } from "../../../../common_component/modal/kwintansi";
+import {
+  CreateKwitansiModal,
+  PrintKwitansiModal,
+} from "../../../../common_component/modal/kwintansi";
 import { useQuery, useMutation } from "react-query";
 import { kwitansiAPI } from "../../../../API";
 import { Loading } from "@utils";
@@ -10,9 +13,7 @@ const KwintansiPage = () => {
     defaultValues: {
       current_page: 1,
       search: "",
-      param:{
-        
-      }
+      param: {},
     },
   });
 
@@ -26,9 +27,9 @@ const KwintansiPage = () => {
   });
 
   const param = useWatch({
-    name:"param",
-    control
-  })
+    name: "param",
+    control,
+  });
   const btnPagination = useMutation({
     mutationFn: (newPage) => setValue("current_page", newPage),
     onSuccess: () => {
@@ -57,12 +58,30 @@ const KwintansiPage = () => {
       }),
   });
 
-  const btnDetailKwitansi = (item)=>{
+  const btnDetailKwitansi = (item) => {
+    console.log({ item });
+    setValue("param", item);
+    $("#PrintKwitansiModal").modal("show");
+  };
 
-    console.log({item})
-    setValue("param",item)
-    $("#PrintKwitansiModal").modal("show")
-  }
+  const validateButtonPrint = (createdAt) => {
+    const day = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getUTCFullYear();
+    const resultDate = `${year}-${month < 10 ? `0${month}` : month}-${day}`;
+    if (resultDate !== createdAt.split(" ")[0]) {
+      return null;
+    } else {
+      return (
+        <button
+          className="btn text-primary"
+          onClick={() => btnDetailKwitansi(item)}
+        >
+          <i className="bx bx-printer"></i>
+        </button>
+      );
+    }
+  };
 
   Loading(isLoading || btnPagination.isLoading);
   return (
@@ -85,13 +104,7 @@ const KwintansiPage = () => {
               placeholderSearch="Search Nama Karyawan"
               data={dataKwitansi?.result?.map((item) => ({
                 ...item,
-                action: [
-                  <button className="btn text-primary"
-                  onClick={() =>btnDetailKwitansi(item)}
-                  >
-                    <i className="bx bx-printer"></i>
-                  </button>,
-                ],
+                action: [validateButtonPrint(item.createdAt)],
               }))}
               current_page={dataKwitansi?.currentPage}
               total_page={dataKwitansi?.totalPages}
@@ -105,9 +118,7 @@ const KwintansiPage = () => {
 
       {/* MODAL ===== */}
       <CreateKwitansiModal />
-      <PrintKwitansiModal 
-      param={param}
-      />
+      <PrintKwitansiModal param={param} />
     </div>
   );
 };

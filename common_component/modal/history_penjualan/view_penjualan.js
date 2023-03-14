@@ -46,8 +46,7 @@ const ViewPenjualanModal = ({ data = [], dataInfo = {} }) => {
           <button
             className="btn btn-secondary"
             onClick={() => {
-              navigate(`/print/penjualan?uuid=${dataInfo.uuid}`);
-              $("#ViewPenjualanModal").modal("hide");
+              open(`/print/penjualan?uuid=${dataInfo.uuid}`, "__blank");
             }}
           >
             Cetak Faktur

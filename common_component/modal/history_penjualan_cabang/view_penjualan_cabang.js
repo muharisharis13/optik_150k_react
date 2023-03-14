@@ -28,16 +28,17 @@ const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
     >
       <div className="card">
         <div className="card-header d-flex gap-2">
-          {dataInfo?.transaksi_status === "CREDIT" ? (
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                $("#ModalPelunasanCabang").modal("show");
-              }}
-            >
-              Selesaikan Pembayaran
-            </button>
-          ) : null}
+          {dataInfo?.transaksi_status === "CREDIT"
+            ? // <button
+              //   className="btn btn-primary"
+              //   onClick={() => {
+              //     $("#ModalPelunasanCabang").modal("show");
+              //   }}
+              // >
+              //   Selesaikan Pembayaran
+              // </button>
+              null
+            : null}
           {dataInfo?.transaksi_status === "CANCEL" ? null : (
             <button
               className="btn btn-danger"
@@ -50,8 +51,7 @@ const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
           <button
             className="btn btn-success"
             onClick={() => {
-              navigate(`/print/surat_jalan?uuid=${dataInfo.uuid}`);
-              $("#ViewPenjualanCabangModal").modal("hide");
+              open(`/print/surat_jalan?uuid=${dataInfo.uuid}`, "_blank");
             }}
           >
             Cetak Surat Jalan
@@ -59,8 +59,7 @@ const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
           <button
             className="btn btn-secondary"
             onClick={() => {
-              navigate(`/print/penjualan_cabang?uuid=${dataInfo.uuid}`);
-              $("#ViewPenjualanCabangModal").modal("hide");
+              open(`/print/penjualan_cabang?uuid=${dataInfo.uuid}`, "_blank");
             }}
           >
             Cetak Faktur
@@ -89,14 +88,18 @@ const ViewPenjualanCabangModal = ({ data = [], dataInfo = {} }) => {
 export default ViewPenjualanCabangModal;
 
 const FormInfo = ({ data }) => {
-
-  const validateViewFormInfo = (value,name)=>{
-    if(name==="total_transaksi_cabang" ||name==="uang1" || name==="uang2" || name==="uang_total"){
-      return MoneyFormatZero(value)
-    }else{
-      return value
+  const validateViewFormInfo = (value, name) => {
+    if (
+      name === "total_transaksi_cabang" ||
+      name === "uang1" ||
+      name === "uang2" ||
+      name === "uang_total"
+    ) {
+      return MoneyFormatZero(value);
+    } else {
+      return value;
     }
-  }
+  };
   return (
     <div className="card-body">
       <h4>Info Penjualan</h4>
@@ -106,7 +109,7 @@ const FormInfo = ({ data }) => {
             <div className="row mt-4">
               <div className="col-md-2 col-lg-2">{name}</div>
               <div className="col-md-4 col-lg-4">
-                : {value?.nama_cabang ?? validateViewFormInfo(value,name)}
+                : {value?.nama_cabang ?? validateViewFormInfo(value, name)}
               </div>
             </div>
           );

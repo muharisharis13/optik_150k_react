@@ -13,7 +13,8 @@ const ResumeKeuangan = () => {
   });
 
   const sumTransaksi = data?.transaksi
-    ?.map((item) => item.totalTransaksiCabang + item?.totalTransaksi)
+    ?.filter((filter) => filter.cara_bayar_name.toLowerCase() === "cash")
+    ?.map((item) => parseInt(item?.totalTransaksi))
     .reduce((prev, curr) => prev + curr, 0);
   console.log({ data, sumTransaksi });
 
@@ -56,21 +57,22 @@ const ResumeKeuangan = () => {
                 <tr key={idx}>
                   <td>{item.cara_bayar_name}</td>
                   <td style={{ textAlign: "end" }}>
-                    {MoneyFormatZero(
-                      parseInt(item.totalTransaksi) +
-                        parseInt(item.totalTransaksiCabang)
-                    )}
+                    {MoneyFormatZero(parseInt(item.totalTransaksi))}
                   </td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr>
+              {/* <tr>
                 <th>Total Transaksi Semua Metode</th>
                 <td style={{ textAlign: "end" }}>
-                  {MoneyFormatZero(sumTransaksi)}
+                  {MoneyFormatZero(
+                    data?.transaksi
+                      ?.map((item) => parseInt(item?.totalTransaksi))
+                      .reduce((prev, curr) => prev + curr, 0)
+                  )}
                 </td>
-              </tr>
+              </tr> */}
               <tr>
                 <th>Pengeluaran</th>
                 <td style={{ textAlign: "end" }}>
@@ -80,13 +82,21 @@ const ResumeKeuangan = () => {
               <tr>
                 <th>Total Di Kasir</th>
                 <td style={{ textAlign: "end" }}>
-                  {MoneyFormatZero(parseInt(parameter?.amount) + sumTransaksi)}
+                  {MoneyFormatZero(
+                    parseInt(parameter?.amount) +
+                      sumTransaksi -
+                      parseInt(data?.pengeluaran)
+                  )}
                 </td>
               </tr>
               <tr>
                 <th>Total Keseluruhan Penjualan</th>
                 <td style={{ textAlign: "end" }}>
-                  {MoneyFormatZero(sumTransaksi - data?.pengeluaran)}
+                  {MoneyFormatZero(
+                    data?.transaksi
+                      ?.map((item) => parseInt(item?.totalTransaksi))
+                      .reduce((prev, curr) => prev + curr, 0)
+                  )}
                 </td>
               </tr>
             </tfoot>

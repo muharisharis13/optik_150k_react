@@ -45,11 +45,8 @@
     <!-- Main Stylesheet File -->
     <link href="/assets/css/style.css" rel="stylesheet" />
 
-    <title>Optik 150 K</title>
-  </head>
-  <body id="body">
-    <div id="root"></div>
 
+    
     <!-- JavaScript Libraries -->
     <script src="/assets/lib/jquery/jquery.min.js"></script>
     <script src="/assets/lib/jquery/jquery-migrate.min.js"></script>
@@ -66,9 +63,10 @@
     <script src="/assets/contactform/contactform.js"></script>
 
     <!-- Template Main Javascript File -->
-    <script type="text/javascript" src="build/main.js"></script>
-    <script src="/assets/js/main.js"></script>
-    <script>
+    <script async type="text/javascript" src="/build/main.js"></script>
+    <script async src="/assets/js/main.js"></script>
+    
+    <script async>
       jQuery(document).ready(function ($) {
         if ($("#nav-menu-container").length) {
           var $mobile_nav = $("#nav-menu-container").clone().prop({
@@ -117,5 +115,11 @@
         }
       });
     </script>
+
+    <title>Optik 150 K</title>
+  </head>
+  <body id="body">
+    <div id="root"></div>
+
   </body>
 </html>

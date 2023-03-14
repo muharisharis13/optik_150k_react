@@ -48,7 +48,6 @@ const HelmetDashboard = () => {
       {/* <!-- Helpers --> */}
       <script
         async
-        
         src="/assets/dashboard/assets/vendor/js/helpers.js"
       ></script>
 
@@ -75,13 +74,10 @@ const HelmetDashboard = () => {
         src="/assets/dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"
       ></script>
 
-      <script async  src="/assets/dashboard/assets/vendor/js/menu.js"></script>
+      <script async src="/assets/dashboard/assets/vendor/js/menu.js"></script>
       {/* <!-- endbuild --> */}
 
       {/* <!-- Vendors JS --> */}
-
-      {/* <!-- Main JS --> */}
-      <script async defer src="/assets/dashboard/assets/js/main.js"></script>
 
       {/* <!-- Page JS --> */}
       <script
@@ -91,6 +87,9 @@ const HelmetDashboard = () => {
 
       {/* <!-- Place this tag in your head or just before your close body tag. --> */}
       <script async src="https://buttons.github.io/buttons.js"></script>
+
+      {/* <!-- Main JS --> */}
+      <script async src="/assets/dashboard/assets/js/main.js"></script>
     </Helmet>
   );
 };
