@@ -64,7 +64,7 @@ const KwintansiPage = () => {
     $("#PrintKwitansiModal").modal("show");
   };
 
-  const validateButtonPrint = (createdAt) => {
+  const validateButtonPrint = (createdAt, item) => {
     const day = new Date().getDate();
     const month = new Date().getMonth() + 1;
     const year = new Date().getUTCFullYear();
@@ -104,7 +104,7 @@ const KwintansiPage = () => {
               placeholderSearch="Search Nama Karyawan"
               data={dataKwitansi?.result?.map((item) => ({
                 ...item,
-                action: [validateButtonPrint(item.createdAt)],
+                action: [validateButtonPrint(item.createdAt, item)],
               }))}
               current_page={dataKwitansi?.currentPage}
               total_page={dataKwitansi?.totalPages}
