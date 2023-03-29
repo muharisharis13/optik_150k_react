@@ -16,7 +16,7 @@ const PenjualanPageDashboard = () => {
     defaultValues: {
       data: [],
       param: {
-        qty: 0,
+        qty: null,
         uom: "",
         product: "",
         stock: 0,
@@ -32,7 +32,7 @@ const PenjualanPageDashboard = () => {
         transaksi_status: "Lunas",
         notes: "",
         uang_total: "",
-        tunai1: 0,
+        tunai1: null,
         tunai2: 0,
       },
       dataCustomer: {
@@ -247,7 +247,7 @@ const PenjualanPageDashboard = () => {
           body,
         });
       } else {
-        alert("Please Check Your Input Information");
+        alert("Harap Periksa kembali customer info dan input tunai 1");
       }
     },
     onSuccess: async (onSuccess) => {
@@ -297,8 +297,6 @@ const PenjualanPageDashboard = () => {
   });
 
   Loading(btnHandleSimpanTransaksi.isLoading);
-
-  console.log({ data });
 
   return (
     <div className="content-wrapper">

@@ -28,6 +28,7 @@ const ModalCabang = ({ param }) => {
       $("#ModalCabang").modal("hide");
       queryClient.invalidateQueries("getListCabang");
       queryClient.invalidateQueries("getListCabangSelect");
+      window.location.reload();
     },
   });
 

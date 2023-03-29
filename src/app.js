@@ -17,12 +17,14 @@ import KwitansiPrintPage from "./pages/dashboard/print/kwitansi";
 import KwitansiReportPage from "./pages/dashboard/laporan/kwitansi";
 import PengeluaranReport from "./pages/dashboard/laporan/pengeluaran";
 import ResumeKeuangan from "./pages/dashboard/laporan/resumeKeuangan";
+import { HelmetDashboard } from "./utils";
 
 const App = () => {
   return (
     <ReactQueryProvider>
       <ReactHookFormProvider>
         <HelmetProvider>
+          <HelmetDashboard />
           <BrowserRouter>
             <Routes>
               <Route path="/*" element={<NotFoundPage />} />

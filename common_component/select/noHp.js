@@ -2,6 +2,7 @@ import Select from "react-select/creatable";
 import { useWatch, useForm, useFormContext } from "react-hook-form";
 import { useQuery } from "react-query";
 import { customerAPI } from "../../API";
+import { ModalCustomer } from "../modal";
 
 const SelectedNoHP = ({ autoFocus = false, useUUID = false }) => {
   const { setValue, control } = useForm({
@@ -35,7 +36,10 @@ const SelectedNoHP = ({ autoFocus = false, useUUID = false }) => {
   const handleOnchangeSelected = (e) => {
     const isNew = e?.__isNew__;
 
+    console.log("hahaha", e);
+
     if (isNew) {
+      setValue("param.no_hp", e?.value);
       $("#ModalCustomer").modal("show");
     } else {
       setValueContext("selected.noHp", e);
@@ -73,6 +77,7 @@ const SelectedNoHP = ({ autoFocus = false, useUUID = false }) => {
         onInputChange={hanledOnInputchange}
         isLoading={isLoading}
       />
+      <ModalCustomer param={param} />
     </div>
   );
 };

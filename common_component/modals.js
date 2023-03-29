@@ -20,6 +20,24 @@ const Modal = ({
     </button>,
   ],
 }) => {
+  const btnHide = () => {
+    if (window.location.pathname == "/dashboard/dataPenjualan/penjualan") {
+      window.location.reload();
+    }
+    $(`#${idModal}`).modal("hide");
+  };
+
+  $("body").on("keydown", function (e) {
+    console.log({ hahaha: e });
+
+    if (
+      e.which == 27 &&
+      window.location.pathname == "/dashboard/dataPenjualan/penjualan"
+    ) {
+      window.location.reload();
+    }
+  });
+
   return (
     <div className="modal fade" id={idModal} tabIndex="-1" aria-hidden="true">
       <div className={`modal-dialog modal-${size}`} role="document">
@@ -34,7 +52,7 @@ const Modal = ({
               data-bs-dismiss="modal"
               aria-label="Close"
               id="closeModal"
-              onClick={() => $(`#${idModal}`).modal("hide")}
+              onClick={() => btnHide()}
             ></button>
           </div>
           <div className="modal-body">{children}</div>

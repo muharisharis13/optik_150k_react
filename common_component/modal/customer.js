@@ -48,10 +48,12 @@ const ModalCustomer = ({ param }) => {
   useEffect(() => {
     if (param?.uuid) {
       Object.entries(param).forEach(([name, value]) => setValue(name, value));
+    } else if (param?.no_hp) {
+      setValue("no_hp", param?.no_hp);
     } else {
-      reset();
+      // reset();
     }
-  }, [param?.uuid]);
+  }, [param?.uuid, param?.no_hp]);
 
   Loading(btnSimpan.isLoading || btnUpdate.isLoading);
 
