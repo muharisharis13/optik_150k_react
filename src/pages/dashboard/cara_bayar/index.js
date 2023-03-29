@@ -56,6 +56,7 @@ const CaraBayarPage = () => {
     },
     onSuccess: () => {
       refetch();
+      window.location.reload();
     },
   });
 
@@ -92,7 +93,7 @@ const CaraBayarPage = () => {
               className="btn btn-primary"
               onClick={() => {
                 $("#ModalCaraBayar").modal("show");
-                setValue("param",{})
+                setValue("param", {});
               }}
             >
               Tambah Cara Bayar Baru

@@ -49,7 +49,7 @@ const arrFilter = [
     value: "no_faktur",
   },
   {
-    label: "Nama Customer",
+    label: "Nama Cabang",
     value: "cabang.nama_cabang",
   },
 ];

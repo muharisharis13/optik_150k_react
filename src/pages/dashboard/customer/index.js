@@ -57,6 +57,7 @@ const CustomerPage = () => {
     },
     onSuccess: () => {
       refetch();
+      location.reload();
     },
   });
 

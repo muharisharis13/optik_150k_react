@@ -13,11 +13,12 @@ const ModalUser = ({ param }) => {
       name: "",
       password: "",
       role: "kasir",
+      active: true,
     },
   });
 
   const btnSimpan = useMutation({
-    mutationFn: ({ username, name, password, role }) => {
+    mutationFn: ({ username, name, password, role, active }) => {
       if (param?.uuid) {
         return adminAPI.updateAdmin({
           uuid: param?.uuid,
@@ -25,6 +26,7 @@ const ModalUser = ({ param }) => {
             username,
             name,
             role,
+            active,
           },
         });
       } else {
@@ -38,11 +40,11 @@ const ModalUser = ({ param }) => {
         });
       }
     },
-    onSuccess: (onSuccess) => {
+    onSuccess: async (onSuccess) => {
       if (onSuccess) {
-        queryClient.invalidateQueries("getListAdmin2");
-        $("#ModalUser").modal("hide");
-        location.reload();
+        await queryClient.invalidateQueries("getListAdmin2");
+        await $("#ModalUser").modal("hide");
+        await window.location.reload();
       }
     },
   });
@@ -51,7 +53,7 @@ const ModalUser = ({ param }) => {
     if (param?.uuid) {
       Object.entries(param).forEach(([name, value]) => setValue(name, value));
     } else {
-      reset();
+      // reset();
     }
   }, [param?.uuid]);
 
@@ -117,14 +119,25 @@ const ModalUser = ({ param }) => {
         <div className="col-md-6 col-lg-6">
           <div>
             <label htmlFor="" className="form-label">
-              Akses
+              Status
             </label>
             <select
               name=""
               id=""
-              className="form-control"
-              {...register("role")}
+              {...register("active")}
+              className="form-select"
             >
+              <option value={true}>Active</option>
+              <option value={false}>Non Active</option>
+            </select>
+          </div>
+        </div>
+        <div className="col-md-6 col-lg-6">
+          <div>
+            <label htmlFor="" className="form-label">
+              Akses
+            </label>
+            <select name="" id="" className="form-select" {...register("role")}>
               <option value="admin">Admin</option>
               <option value="kasir">kasir</option>
               <option value="penjualan">penjualan</option>
