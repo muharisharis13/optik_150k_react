@@ -70,7 +70,14 @@ const KwintansiPage = () => {
     const year = new Date().getUTCFullYear();
     const resultDate = `${year}-${month < 10 ? `0${month}` : month}-${day}`;
     if (resultDate !== createdAt.split(" ")[0]) {
-      return null;
+      return (
+        <button
+          className="btn text-primary"
+          onClick={() => btnDetailKwitansi(item)}
+        >
+          <i className="bx bx-printer"></i>
+        </button>
+      );
     } else {
       return (
         <button
