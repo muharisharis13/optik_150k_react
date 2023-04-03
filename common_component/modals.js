@@ -21,7 +21,10 @@ const Modal = ({
   ],
 }) => {
   const btnHide = () => {
-    if (window.location.pathname == "/dashboard/dataPenjualan/penjualan") {
+    if (
+      window.location.pathname == "/dashboard/dataPenjualan/penjualan" ||
+      window.location.pathname == "/dashboard/dataPenjualan/penjualan/cabang"
+    ) {
       window.location.reload();
     }
     $(`#${idModal}`).modal("hide");
@@ -31,8 +34,9 @@ const Modal = ({
     console.log({ hahaha: e });
 
     if (
-      e.which == 27 &&
-      window.location.pathname == "/dashboard/dataPenjualan/penjualan"
+      (e.which == 27 &&
+        window.location.pathname == "/dashboard/dataPenjualan/penjualan") ||
+      window.location.pathname == "/dashboard/dataPenjualan/penjualan/cabang"
     ) {
       window.location.reload();
     }
