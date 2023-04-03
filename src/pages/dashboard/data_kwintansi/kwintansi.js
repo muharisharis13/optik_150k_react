@@ -68,16 +68,13 @@ const KwintansiPage = () => {
     const day = new Date().getDate();
     const month = new Date().getMonth() + 1;
     const year = new Date().getUTCFullYear();
-    const resultDate = `${year}-${month < 10 ? `0${month}` : month}-${day}`;
+    const resultDate = `${year}-${month < 10 ? `0${month}` : month}-${
+      day < 10 ? `0${day}` : day
+    }`;
+
+    console.log({ resultDate });
     if (resultDate !== createdAt.split(" ")[0]) {
-      return (
-        <button
-          className="btn text-primary"
-          onClick={() => btnDetailKwitansi(item)}
-        >
-          <i className="bx bx-printer"></i>
-        </button>
-      );
+      return null;
     } else {
       return (
         <button

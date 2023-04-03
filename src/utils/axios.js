@@ -2,7 +2,8 @@ import axios from "axios";
 import Cookie from "js-cookie";
 
 const baseURL =
-  process.env.REACT_APP_BASE_URL || "http://localhost:3002/api/v1";
+  // process.env.REACT_APP_BASE_URL || "http://localhost:3002/api/v1";
+  process.env.REACT_APP_BASE_URL || "http://192.168.1.150:3002/api/v1";
 const timeout = 16000;
 
 let token = Cookie.get("token");
