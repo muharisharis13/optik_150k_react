@@ -13,10 +13,9 @@ const ResumeKeuangan = () => {
   });
 
   const sumTransaksi = data?.transaksi
-    ?.filter((filter) => filter.cara_bayar_name.toLowerCase() === "cash")
+    ?.filter((filter) => filter.cara_bayar_name.toLowerCase().includes("cash"))
     ?.map((item) => parseInt(item?.totalTransaksi))
     .reduce((prev, curr) => prev + curr, 0);
-  console.log({ data, sumTransaksi });
 
   return (
     <div className="container align-items-center justify-content-center">

@@ -1,4 +1,5 @@
 import Modal from "../../modals";
+import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import {
   SelectedNoHP,
@@ -53,9 +54,77 @@ const ModalPenjualanKasir = () => {
     }
   };
 
+  const validateFilter = () => {
+    if (showOf === "DP") {
+      return arrDP.map((item, idx) => (
+        <div class="form-check mt-3" key={idx}>
+          <input
+            name="filter-radio"
+            class="form-check-input"
+            type="radio"
+            value={item.key}
+            id={item.key}
+            onChange={(e) => setValue("selected_radio", e.target.value)}
+            // {...register("selected_radio")}
+            checked={item.key === selected_radio ? true : false}
+          />
+          <label class="form-check-label" for={item.key}>
+            {" "}
+            {item.title}{" "}
+          </label>
+        </div>
+      ));
+    } else {
+      return showOf === "cabang"
+        ? arrCabang.map((item, idx) => (
+            <div class="form-check mt-3" key={idx}>
+              <input
+                name="filter-radio"
+                class="form-check-input"
+                type="radio"
+                value={item.key}
+                id={item.key}
+                onChange={(e) => setValue("selected_radio", e.target.value)}
+                checked={item.key === selected_radio ? true : false}
+              />
+              <label class="form-check-label" for={item.key}>
+                {" "}
+                {item.title}{" "}
+              </label>
+            </div>
+          ))
+        : arrRadio.map((item, idx) => (
+            <div class="form-check mt-3" key={idx}>
+              <input
+                name="filter-radio"
+                class="form-check-input"
+                type="radio"
+                value={item.key}
+                id={item.key}
+                onChange={(e) => setValue("selected_radio", e.target.value)}
+                // {...register("selected_radio")}
+                checked={item.key === selected_radio ? true : false}
+              />
+              <label class="form-check-label" for={item.key}>
+                {" "}
+                {item.title}{" "}
+              </label>
+            </div>
+          ));
+    }
+  };
+
+  useEffect(() => {
+    if (showOf === "DP") {
+      setValue("selected_radio", "customerId");
+    } else {
+      setValue("selected_radio", "all");
+    }
+  }, [showOf]);
+
   return (
     <Modal
-      title="Penjualan Kasir"
+      title={"Penjualan Kasir " + showOf}
       idModal="ModalPenjualanKasir"
       size="md"
       childrenFooter={[
@@ -117,42 +186,7 @@ const ModalPenjualanKasir = () => {
         <label htmlFor="" className="form-label">
           tampilkan berdasarkan
         </label>
-        {showOf === "cabang"
-          ? arrCabang.map((item, idx) => (
-              <div class="form-check mt-3" key={idx}>
-                <input
-                  name="filter-radio"
-                  class="form-check-input"
-                  type="radio"
-                  value={item.key}
-                  id={item.key}
-                  onChange={(e) => setValue("selected_radio", e.target.value)}
-                  checked={item.key === selected_radio ? true : false}
-                />
-                <label class="form-check-label" for={item.key}>
-                  {" "}
-                  {item.title}{" "}
-                </label>
-              </div>
-            ))
-          : arrRadio.map((item, idx) => (
-              <div class="form-check mt-3" key={idx}>
-                <input
-                  name="filter-radio"
-                  class="form-check-input"
-                  type="radio"
-                  value={item.key}
-                  id={item.key}
-                  onChange={(e) => setValue("selected_radio", e.target.value)}
-                  // {...register("selected_radio")}
-                  checked={item.key === selected_radio ? true : false}
-                />
-                <label class="form-check-label" for={item.key}>
-                  {" "}
-                  {item.title}{" "}
-                </label>
-              </div>
-            ))}
+        {validateFilter()}
       </div>
     </Modal>
   );
@@ -172,10 +206,6 @@ const arrCabang = [
   {
     title: "Barang",
     key: "productId",
-  },
-  {
-    title: "Cara Bayar",
-    key: "payment_method1",
   },
   {
     title: "Semua",
@@ -202,5 +232,12 @@ const arrRadio = [
   {
     title: "Semua",
     key: "all",
+  },
+];
+
+const arrDP = [
+  {
+    title: "Customer",
+    key: "customerId",
   },
 ];

@@ -24,11 +24,35 @@ const PenjualanKasirPage = () => {
   Loading(isLoading);
 
   const getObjKey = Object.keys(data ?? {});
-  console.log({ getObjKey, data });
+
+  const validateElseTable = (itemObj) => {
+    if (data[itemObj].listTransaksi?.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const validateIfTable = (item) => {
+    if (item?.listTransaksi?.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  console.log({ getObjKey });
 
   return (
     <div className=" container-fluid">
       {getObjKey
+        .filter((filter) => {
+          if (param.view === "cabang") {
+            return filter !== "caraBayar";
+          } else {
+            return filter;
+          }
+        })
         .filter((filter) => {
           if (
             (!param.customerId && param.selected_radio === "customerId") ||
@@ -67,144 +91,159 @@ const PenjualanKasirPage = () => {
             {Array.isArray(data[itemObj]) ? (
               data[itemObj].map((item, idx) => (
                 <div key={idx}>
-                  <div className="form-group mb-2 mt-2">
-                    <div>
-                      <label className="form-label" htmlFor="">
-                        Dari Tanggal
-                      </label>{" "}
-                      : {param?.from_datetime}
-                    </div>
-                    <div>
-                      <label className="form-label" htmlFor="">
-                        Sampai Tanggal
-                      </label>{" "}
-                      : {param?.until_datetime}
-                    </div>
-                    <div className=" text-capitalize">
-                      <label className="form-label" htmlFor="">
-                        Nama
-                      </label>{" "}
-                      :{" "}
-                      {item.customer_name ||
-                        item.category_name ||
-                        item.product_name ||
-                        item.cara_bayar_name ||
-                        item.nama_cabang}
-                    </div>
-                  </div>
+                  {validateIfTable(item) ? (
+                    <>
+                      <div className="form-group mb-2 mt-2">
+                        <div>
+                          <label className="form-label" htmlFor="">
+                            Dari Tanggal
+                          </label>{" "}
+                          : {param?.from_datetime}
+                        </div>
+                        <div>
+                          <label className="form-label" htmlFor="">
+                            Sampai Tanggal
+                          </label>{" "}
+                          : {param?.until_datetime}
+                        </div>
+                        <div className=" text-capitalize">
+                          <label className="form-label" htmlFor="">
+                            Nama
+                          </label>{" "}
+                          :{" "}
+                          {item.customer_name ||
+                            item.category_name ||
+                            item.product_name ||
+                            item.cara_bayar_name ||
+                            item.nama_cabang}
+                        </div>
+                      </div>
 
-                  <Tables
-                    useNotFound={false}
-                    column={column.filter((filter) =>
-                      param.view !== "cabang"
-                        ? filter.title !== "Cabang"
-                        : filter
-                    )}
-                    isPagination={false}
-                    isSearch={false}
-                    data={item?.listTransaksi?.map((itemTrans) => ({
-                      ...itemTrans,
-                      product: {
-                        ...itemTrans.product,
-                        product_name: itemTrans.product?.product_name ?? "",
-                      },
-                      name:
-                        item.customer_name ||
-                        item.category_name ||
-                        item.productCode ||
-                        item.cara_bayar_name ||
-                        item.nama_cabang,
-                      price: MoneyFormatZero(itemTrans.price),
-                      subtotal: MoneyFormatZero(itemTrans.subtotal),
-                    }))}
-                    tfoot={
-                      <tfoot>
-                        <tr>
-                          <th
-                            colSpan={column.length - 1}
-                            className="text-center"
-                          >
-                            Total
-                          </th>
-                          <th>
-                            Rp.{" "}
-                            {MoneyFormatZero(
-                              item.listTransaksi?.reduce(
-                                (prev, curr) => prev + parseInt(curr?.subtotal),
-                                0
-                              )
-                            )}
-                          </th>
-                        </tr>
-                      </tfoot>
-                    }
-                  />
+                      <Tables
+                        useNotFound={false}
+                        column={column.filter((filter) =>
+                          param.view !== "cabang"
+                            ? filter.title !== "Cabang"
+                            : filter
+                        )}
+                        isPagination={false}
+                        isSearch={false}
+                        data={item?.listTransaksi?.map((itemTrans) => ({
+                          ...itemTrans,
+                          product: {
+                            ...itemTrans.product,
+                            product_name: itemTrans.product?.product_name ?? "",
+                          },
+                          name:
+                            item.customer_name ||
+                            item.category_name ||
+                            item.productCode ||
+                            item.cara_bayar_name ||
+                            item.nama_cabang,
+                          price: MoneyFormatZero(itemTrans.price),
+                          subtotal: MoneyFormatZero(itemTrans.subtotal),
+                        }))}
+                        tfoot={
+                          <tfoot>
+                            <tr>
+                              <th
+                                colSpan={column.length - 2}
+                                className="text-center"
+                              >
+                                Total
+                              </th>
+                              <th>
+                                Rp.{" "}
+                                {MoneyFormatZero(
+                                  item.listTransaksi?.reduce(
+                                    (prev, curr) =>
+                                      prev + parseInt(curr?.subtotal),
+                                    0
+                                  )
+                                )}
+                              </th>
+                            </tr>
+                          </tfoot>
+                        }
+                      />
+                    </>
+                  ) : null}
                 </div>
               ))
             ) : (
               <div>
-                <div className="form-group mb-2 mt-2">
-                  <div>
-                    <label className="form-label" htmlFor="">
-                      Dari Tanggal
-                    </label>{" "}
-                    : {param?.from_datetime}
-                  </div>
-                  <div>
-                    <label className="form-label" htmlFor="">
-                      Sampai Tanggal
-                    </label>{" "}
-                    : {param?.until_datetime}
-                  </div>
-                  <div className=" text-capitalize">
-                    <label className="form-label" htmlFor="">
-                      Selected Radio
-                    </label>{" "}
-                    : {param?.selected_radio}
-                  </div>
-                </div>
+                {validateElseTable(itemObj) ? (
+                  <>
+                    <div className="form-group mb-2 mt-2">
+                      <div>
+                        <label className="form-label" htmlFor="">
+                          Dari Tanggal
+                        </label>{" "}
+                        : {param?.from_datetime}
+                      </div>
+                      <div>
+                        <label className="form-label" htmlFor="">
+                          Sampai Tanggal
+                        </label>{" "}
+                        : {param?.until_datetime}
+                      </div>
+                      <div className=" text-capitalize">
+                        <label className="form-label" htmlFor="">
+                          Selected Radio
+                        </label>{" "}
+                        : {param?.selected_radio}
+                      </div>
+                    </div>
 
-                <Tables
-                  useNotFound={false}
-                  column={column.filter((filter) =>
-                    param.view !== "cabang" ? filter.title !== "Cabang" : filter
-                  )}
-                  isPagination={false}
-                  isSearch={false}
-                  data={data[itemObj].listTransaksi?.map((itemTrans) => ({
-                    ...itemTrans,
-                    product: {
-                      ...itemTrans.product,
-                      product_name: itemTrans.product?.product_name ?? "",
-                    },
-                    name:
-                      data[itemObj].customer_name ||
-                      data[itemObj].category_name ||
-                      data[itemObj].productCode ||
-                      data[itemObj].cara_bayar_name ||
-                      data[itemObj].nama_cabang,
-                    price: MoneyFormatZero(itemTrans.price),
-                    subtotal: MoneyFormatZero(itemTrans.subtotal),
-                  }))}
-                  tfoot={
-                    <tfoot>
-                      <tr>
-                        <th colSpan={column.length - 1} className="text-center">
-                          Total
-                        </th>
-                        <th>
-                          Rp.{" "}
-                          {MoneyFormatZero(
-                            data[itemObj].listTransaksi?.reduce(
-                              (prev, curr) => prev + parseInt(curr?.subtotal),
-                              0
-                            )
-                          )}
-                        </th>
-                      </tr>
-                    </tfoot>
-                  }
-                />
+                    <Tables
+                      useNotFound={false}
+                      column={column.filter((filter) =>
+                        param.view !== "cabang"
+                          ? filter.title !== "Cabang"
+                          : filter
+                      )}
+                      isPagination={false}
+                      isSearch={false}
+                      data={data[itemObj].listTransaksi?.map((itemTrans) => ({
+                        ...itemTrans,
+                        product: {
+                          ...itemTrans.product,
+                          product_name: itemTrans.product?.product_name ?? "",
+                        },
+                        name:
+                          data[itemObj].customer_name ||
+                          data[itemObj].category_name ||
+                          data[itemObj].productCode ||
+                          data[itemObj].cara_bayar_name ||
+                          data[itemObj].nama_cabang,
+                        price: MoneyFormatZero(itemTrans.price),
+                        subtotal: MoneyFormatZero(itemTrans.subtotal),
+                      }))}
+                      tfoot={
+                        <tfoot>
+                          <tr>
+                            <th
+                              colSpan={column.length - 2}
+                              className="text-center"
+                            >
+                              Total
+                            </th>
+                            <th>
+                              Rp.{" "}
+                              {MoneyFormatZero(
+                                data[itemObj].listTransaksi?.reduce(
+                                  (prev, curr) =>
+                                    prev + parseInt(curr?.subtotal),
+                                  0
+                                )
+                              )}
+                            </th>
+                          </tr>
+                        </tfoot>
+                      }
+                    />
+                  </>
+                ) : null}
               </div>
             )}
           </div>
@@ -214,8 +253,6 @@ const PenjualanKasirPage = () => {
 };
 
 export default PenjualanKasirPage;
-
-const param = queryString.parse(location.search);
 
 const column = [
   {
